@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/snack.css">
+  <link rel="stylesheet" href="css/search.css">
+  <title>Classroom Library</title>
+</head>
+<body style="background-color: #B8E2F2;">
+
+  <ul>
+    <li><a class="active" href="library">Library</a></li>
+    <li><a href="home">Home</a></li>
+    <li><a href="my-books">My Books</a></li>
+    <li><a href="settings">Settings</a></li>
+  </ul>
+
+  <br><br><br>
+
+  <h2 id="search-result-text"></h2>
+  <h3 id="search-result-amnt"></h3>
+  
+  <!--<div class="books">
+    <div id="1" class="book">
+      <img src="https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/images%2F1984.jpg?alt=media&token=2b036f24-869e-4e12-9482-38ebdbf7e4ee" alt="blah"><br>
+      <span>1984</span>
+    </div>
+
+    <div id="2" class="book">
+      <img src="https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/images%2F1984.jpg?alt=media&token=2b036f24-869e-4e12-9482-38ebdbf7e4ee">
+      <span>Pretend this says something else</span>
+    </div>
+
+    <div id="3" class="book">
+      <img src="https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/images%2F1984.jpg?alt=media&token=2b036f24-869e-4e12-9482-38ebdbf7e4ee">
+      <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus, harum quibusdam quidem voluptate consequuntur, molestias quia voluptatibus animi laudantium deleniti atque fuga inventore nam magnam. Vero aliquam modi nam laboriosam!</span>
+    </div>
+
+    <div id="4" class="book">
+      <img src="https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/images%2F1984.jpg?alt=media&token=2b036f24-869e-4e12-9482-38ebdbf7e4ee">
+      <span>Get a load of that guy..</span>
+    </div>
+  </div>-->
+
+  <div class="cover" style="display: none;">
+    
+  </div>
+
+  <div class="details" style="display: none;">
+    <img id="details-img">
+    <h2 id="details-title"></h2>
+    <h2 id="details-author"></h2>
+    <h2 id="details-genre"></h2><br>
+
+    <h3 id="available-text"></h3>
+    <input id="action-btn" class="button" type="button" value=""><br><br><br>
+    <input id="back-btn" class="button" type="button" value="Back"><br><br>
+    <h3>Check out what others are saying..</h3>
+    <h3 id="rating-text"></h3>
+    <div class="reviews">
+
+    </div>
+  </div>
+
+  <!--<div class="details">
+    <img src="https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/images%2F1984.jpg?alt=media&token=2b036f24-869e-4e12-9482-38ebdbf7e4ee">
+    <h2>Title: 1984</h2>
+    <h2>Author: George Orwell</h2>
+    <h2>Genre: Fiction</h2><br>
+
+    <h3>This book is available for check out!</h3>
+    <input class="button" type="button" value="Check Out"><br><br><br>
+    <input class="button" type="button" value="Back"><br><br><br>
+    <select>
+      <option value="1">1 star</option>
+      <option value="2">2 stars</option>
+      <option value="3">3 stars</option>
+      <option value="4">4 stars</option>
+      <option value="5">5 stars</option>
+    </select>
+    <input class="input" type="text" placeholder="Leave a review..">
+    <h3>Check out what others are saying..</h3>
+    <h3>Rating: 4.7</h3>
+    <div class="reviews">
+      <div class="review">
+        <h4>juanr1145 rated 5: "Too good!"</h4>
+      </div>
+      <div class="review">
+        <h4>pedrom1000 rated 4: "Pretty good"</h4>
+      </div>
+      <div class="review">
+        <h4>fernandom1234 rated 3: "it's ok"</h4>
+      </div>
+      <div class="review">
+        <h4>parapoooo1234 rated 2: "I don't like it!! too bad!!!!"</h4>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="books">
+    
+  </div>
+
+  
+  <script src="js/utils.js"></script>
+  <script src="js/snack.js"></script>
+  <script src="js/search.js"></script>
+  
+</body>
+</html>

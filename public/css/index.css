@@ -1,0 +1,33 @@
+.btn-wrapper{
+    text-align: center; 
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 50px 80px 50px;
+    position:relative;
+    z-index: 1;
+    margin: auto;
+    width: 25%;
+    justify-content: center;
+    box-shadow: 0 0 10px black;
+    height: 300px;
+    overflow: scroll;
+    transform: translate(0%, 25%);
+    overflow: hidden;
+  }
+  
+  #sign-in{
+    font-size: 24px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #A5E2F2;
+    cursor: pointer;
+  }
+  
+  @media (max-width:600px){
+    .btn-wrapper {
+      transform: translate(0%, 30%);
+      width: 60%;
+      height: 350px;
+    }
+  }

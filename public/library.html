@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/snack.css">
+  <link rel="stylesheet" href="css/library.css">
+  <title>Classroom Library</title>
+</head>
+<body style="background-color: #B8E2F2;">
+
+  <ul>
+    <li><a class="active" href="#">Library</a></li>
+    <li><a href="home">Home</a></li>
+    <li><a href="my-books">My Books</a></li>
+    <li><a href="settings">Settings</a></li>
+  </ul>
+
+  <br><br><br>
+  
+  <div>
+    <span style="font-size: 20px;">Search by: </span>
+    <select id="filter">
+      <option value="title">title</option>
+      <option value="author">author</option>
+      <option value="genre">genre</option>
+    </select>
+    <br>
+    <input id="search-bar" class="input" type="text" placeholder="Enter title..">
+    <input id="search-btn" class="button" type="button" value="Search">
+  </div>
+    
+  <script src="js/utils.js"></script>
+  <script src="js/snack.js"></script>
+  <script src="js/library.js"></script>
+  
+</body>
+</html>

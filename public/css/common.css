@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+html, body {
+  font-family: 'Abel', sans-serif;
+}
+
+body {margin: 0}
+
+.input{
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 4px;
+  background-color: #B8E2F2;
+}
+
+::placeholder{
+  color: black;
+  opacity: 1;
+}
+
+::-ms-input-placeholder{
+  color: black;
+}
+
+.button{
+  font-size: 24px;
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: #A5E2F2;
+  cursor: pointer;
+}
+
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active{
+  background-color: #04AA6D;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/my-books.css">
+  <title>Classroom Library</title>
+</head>
+<body style="background-color: #B8E2F2;">
+
+  <ul>
+    <li><a href="library">Library</a></li>
+    <li><a href="home">Home</a></li>
+    <li><a class="active" href="#">My Books</a></li>
+    <li><a href="settings">Settings</a></li>
+  </ul>
+
+  <br><br><br>
+
+  <div class="cover" style="display: none;">
+    
+  </div>
+  
+  <div class="details" style="display: none;">
+    <img id="details-img">
+    <h2 id="details-title"></h2>
+    <h2 id="details-author"></h2>
+    <h2 id="details-genre"></h2><br>
+
+    <!--<h3 id="available-text"></h3>-->
+    <input id="action-btn" class="button" type="button" value=""><br><br><br>
+    <input id="back-btn" class="button" type="button" value="Back"><br><br>
+    <select id="user-rating">
+      <option value="1">1 star</option>
+      <option value="2">2 stars</option>
+      <option value="3">3 stars</option>
+      <option value="4">4 stars</option>
+      <option value="5">5 stars</option>
+    </select>
+    <input type="text" id="review-input" class="input" placeholder="Leave a review..">
+    <!--<h3>Check out what others are saying..</h3>
+    <h3 id="rating-text"></h3>
+    <div class="reviews">
+
+    </div>-->
+  </div>
+
+  
+  <h2 id="my-books">My Books</h2>
+  <h3 id="removable-notice-checked-out">Loading..</h3>
+  <div class="books">
+    
+  </div>
+
+  <br><br><br>
+  
+  <h2 id="my-wishlist">My Wishlist</h2>
+  <h3 id="removable-notice-wishlist">Loading..</h3>
+  <div class="wishlist">
+    
+  </div>
+
+  <script src="js/snack.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/my-books.js"></script>
+  
+</body>
+</html>
