@@ -1,0 +1,29 @@
+const { verify } = require("../utils/verify.js");
+
+module.exports = (socket, users, books) => {
+    socket.on("turn-in", async (data) => {
+        let { verified, userRef, user } = await verify(users, data);
+        if(!verified) {socket.emit("fatal"); return; }
+
+        const bookRef = await books.doc(data.isbn);
+        const book = await bookRef.get();
+        let user_books = ( user.books == undefined ? [] : user.books );
+
+        if(book.exists && user_books.includes(book.data().isbn)){
+            let element = user_books.indexOf(book.data().isbn);
+            user_books.splice(element, 1);
+
+            users.doc(data.username).update({
+                books: user_books
+            });
+            books.doc(book.data().isbn).update({
+                available: true,
+                holder: ""
+            });
+            socket.emit("modify-results", {message: "Book turned in!", bgColor: "#55FF55", txColor: "#000000"});
+        }else{
+            socket.emit("modify-results", {message: "Could not turn in book.", bgColor: "#FF5555", txColor: "#FFFFFF"});
+        }
+
+    });
+}
