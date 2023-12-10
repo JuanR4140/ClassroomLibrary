@@ -202,6 +202,10 @@ socket.on("wishlist-results", (data) => {
   });
 });
 
+socket.on("modify-results", (data) => {
+  createSnackbar(data.message, data.textColor, data.bgColor);
+});
+
 socket.on("fatal", () => {
   window.location.href = "/";
 });
