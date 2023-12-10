@@ -19,7 +19,15 @@ document.querySelector("#filter").addEventListener("change", () => {
 });
 
 document.querySelector("#search-btn").addEventListener("click", () => {
-  const url = `search?query=${document.querySelector("#search-bar").value}&filter=${document.querySelector("#filter").value}`;
+  let url = "";
+
+  if(document.querySelector("#filter").value == "genre"){
+    url = `search?query=${document.querySelector("#genre").value}&filter=${document.querySelector("#filter").value}`;
+  }else{
+    url = `search?query=${document.querySelector("#search-bar").value}&filter=${document.querySelector("#filter").value}`;
+  }
+
   const encodedUrl = encodeURI(url);
   window.location.href = encodedUrl;
+
 });

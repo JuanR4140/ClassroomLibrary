@@ -29,6 +29,12 @@
       <option value="genre">genre</option>
     </select>
     <br>
+
+    <select id="genre" style="display: none;" >
+        <option value="pick">Pick a genre..</option>
+        <option value="fiction">Fiction</option>
+    </select>
+
     <input id="search-bar" class="input" type="text" placeholder="Enter title..">
     <input id="search-btn" class="button" type="button" value="Search">
   </div>
@@ -36,6 +42,20 @@
   <script src="js/utils.js"></script>
   <script src="js/snack.js"></script>
   <script src="js/library.js"></script>
+
+  <script>
+
+      document.querySelector("#filter").addEventListener("change", () => {
+          if(document.querySelector("#filter").value == "genre"){
+              document.querySelector("#search-bar").style.display = "none";
+              document.querySelector("#genre").style.display = "inline-block";
+          }else{
+              document.querySelector("#search-bar").style.display = "inline-block";
+              document.querySelector("#genre").style.display = "none";
+          }
+      });
+
+  </script>
   
 </body>
 </html>
