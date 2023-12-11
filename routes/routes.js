@@ -43,6 +43,10 @@ let registerRoutes = (app) => {
         RenderFile(res, "admin/login");
     });
 
+    app.get("/admin/dashboard", (req, res) => {
+        RenderFile(res, "admin/dashboard");
+    });
+
     console.log("All routes registered.");
 }
 

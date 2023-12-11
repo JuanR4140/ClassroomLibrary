@@ -1,4 +1,4 @@
-const { verify } = require("../utils/verify.js");
+const { verify } = require("../../utils/verify.js");
 
 module.exports = (socket, users, books) => {
     socket.on('add-wishlist', async (data) => {

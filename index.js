@@ -18,19 +18,20 @@ io.on("connection", (socket) => {
     console.log("New connection.");
 
     require("./sockets/ping.js")(socket, users);
+    require("./sockets/admin-ping.js")(socket, users);
+
     
-    require("./sockets/sign-in.js")(socket, users);
-    
-    require("./sockets/search-query.js")(socket, users, books);
+    require("./sockets/user/sign-in.js")(socket, users);
+    require("./sockets/user/search-query.js")(socket, users, books);
+    require("./sockets/user/check-out.js")(socket, users, books);
+    require("./sockets/user/turn-in.js")(socket, users, books);
+    require("./sockets/user/get-checked-out-books.js")(socket, users, books);
+    require("./sockets/user/add-wishlist.js")(socket, users, books);
+    require("./sockets/user/remove-wishlist.js")(socket, users, books);
+    require("./sockets/user/get-wishlist.js")(socket, users, books);
 
-    require("./sockets/check-out.js")(socket, users, books);
-    require("./sockets/turn-in.js")(socket, users, books);
 
-    require("./sockets/get-checked-out-books.js")(socket, users, books);
-
-    require("./sockets/add-wishlist.js")(socket, users, books);
-    require("./sockets/remove-wishlist.js")(socket, users, books);
-    require("./sockets/get-wishlist.js")(socket, users, books);
+    require("./sockets/admin/admin-sign-in.js")(socket, users);
 
 });
 

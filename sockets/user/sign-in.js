@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltrounds = 10;
 
-const { verify } = require("../utils/verify.js");
-const { generateToken } = require("../utils/generateToken.js");
+const { verify } = require("../../utils/verify.js");
+const { generateToken } = require("../../utils/generateToken.js");
 
 module.exports = (socket, users) => {
     socket.on("sign-in", async (data) => {
