@@ -6,23 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="../css/snack.css">
+  <link rel="stylesheet" href="css/library.css">
   <title>Classroom Library</title>
 </head>
 <body style="background-color: #B8E2F2;">
 
   <ul>
-    <li><a href="library">Library</a></li>
-    <li><a class="active" href="#">Dashboard</a></li>
+    <li><a class="active" href="#">Library</a></li>
+    <li><a href="dashboard">Dashboard</a></li>
     <li><a href="students">Students</a></li>
     <li><a href="settings">Settings</a></li>
   </ul>
 
   <br><br><br>
-  <h2 id="greeting"></h2>
 
+  <video autoplay="true" id="video"></video>
+
+  <input id="open-scanner" type="button" class="button" height="350" width="250" value="Toggle scanner"><br><br>
+  <h3 id="isbn">ISBN read: </h3>
+
+  <input type="button" class="button" value="Add a book">
+  <input type="button" class="button" value="Remove a book">
+    
   <script src="../js/utils.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script src="../js/snack.js"></script>
+  <script src="js/library.js"></script>
   
 </body>
 </html>
