@@ -5,6 +5,13 @@ module.exports = (socket, users, books) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
+        if(data.stars != "0"){
+            if(data.review.length < 25){
+                socket.emit("modify-results", {message: "Review too short.", bgColor: "#FF5555", txColor: "#FFFFFF"});
+                return;
+            }
+        }
+
         const bookRef = await books.doc(data.isbn);
         const book = await bookRef.get();
         let user_books = ( user.books == undefined ? [] : user.books );
@@ -20,6 +27,20 @@ module.exports = (socket, users, books) => {
                 available: true,
                 holder: ""
             });
+
+            if(data.stars != "0"){
+                let reviews = book.data().reviews;
+                let d = {
+                    rating: parseInt(data.stars),
+                    review: data.review
+                };
+                reviews[data.username] = d;
+                
+                books.doc(book.data().isbn).update({
+                    reviews: reviews
+                });
+            }
+
             socket.emit("modify-results", {message: "Book turned in!", bgColor: "#55FF55", txColor: "#000000"});
         }else{
             socket.emit("modify-results", {message: "Could not turn in book.", bgColor: "#FF5555", txColor: "#FFFFFF"});

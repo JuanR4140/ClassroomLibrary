@@ -90,7 +90,10 @@ document.querySelector("#action-btn").addEventListener("click", () => {
         username: getCookie("username"),
         token: getCookie("token"),
 
-        isbn: document.querySelector("#details-title").getAttribute("isbn")
+        isbn: document.querySelector("#details-title").getAttribute("isbn"),
+
+        stars: document.querySelector("#user-rating").value,
+        review: document.querySelector("#review-input").value
       });
       break;
     }
