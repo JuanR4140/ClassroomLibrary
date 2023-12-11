@@ -33,8 +33,15 @@ document.querySelector("#open-scanner").addEventListener("click", () => {
                     const barcodes = await barcodeDetector.detect(video);
                     if(barcodes.length <= 0) return;
 
-                    barcodes.map(barcode => {
+                    barcodes.map(async (barcode) => {
                         document.querySelector("#isbn").innerText = `ISBN read: ${barcode.rawValue}`;
+
+                        let isbn = barcode.rawValue;
+                        let request_url = `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`;
+
+                        const response = await fetch(request_url);
+                        const book_data = response.json();
+                        console.log(book_data);
 
                         scanner = false;
                         let tracks = document.querySelector("#video").srcObject.getTracks();
