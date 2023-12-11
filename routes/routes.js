@@ -33,6 +33,16 @@ let registerRoutes = (app) => {
         RenderFile(res, "settings");
     });
 
+
+
+    app.get("/admin", (req, res) => {
+        res.redirect("/admin/login");
+    });
+
+    app.get("/admin/login", (req, res) => {
+        RenderFile(res, "admin/login");
+    });
+
     console.log("All routes registered.");
 }
 
