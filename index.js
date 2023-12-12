@@ -2,7 +2,7 @@ require("dotenv").config();
 const ejs = require("ejs");
 const express = require("express");
 
-const { db, books, users, storage } = require("./firebase/firebase.js");
+const { db, books, users, bucket } = require("./firebase/firebase.js");
 
 const PORT = 3000;
 
@@ -32,8 +32,8 @@ io.on("connection", (socket) => {
 
 
     require("./sockets/admin/admin-sign-in.js")(socket, users);
-    require("./sockets/admin/admin-add-book.js")(socket, users, books, storage);
-    require("./sockets/admin/admin-remove-book.js")(socket, users, books);
+    require("./sockets/admin/admin-add-book.js")(socket, users, books, bucket);
+    require("./sockets/admin/admin-remove-book.js")(socket, users, books, bucket);
     require("./sockets/admin/book-exists.js")(socket, books);
 
 });
