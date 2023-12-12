@@ -21,13 +21,27 @@
 
   <br><br><br>
 
-  <video autoplay="true" id="video"></video>
+  <video autoplay="true" width="200" height="300" id="video"></video>
 
-  <input id="open-scanner" type="button" class="button" height="350" width="250" value="Toggle scanner"><br><br>
-  <h3 id="isbn">ISBN read: </h3>
+  <input id="open-scanner" type="button" class="button" value="Toggle scanner"><br><br>
+  <!--<h3 id="isbn">ISBN read: </h3>-->
 
-  <input type="button" class="button" value="Add a book">
-  <input type="button" class="button" value="Remove a book">
+  <input type="text" class="input" id="isbn" placeholder="Enter ISBN.."><br><br>
+  <input type="text" class="input" id="title" placeholder="Enter title.."><br><br>
+  <input type="text" class="input" id="author" placeholder="Enter author.."><br><br>
+  <!--<input type="text" id="genre" placeholder="Genre">-->
+  <img id="cover" src="" width="100" height="200" style="padding: 10px"><br><br>
+
+  <input type="file" id="file-input" accept="image/*"><br><br>
+
+  <select id="genre">
+    <option value="pick">Pick a genre..</option>
+    <option value="fiction">Fiction</option>
+  </select>
+
+
+  <input type="button" id="add-book" class="button" value="Add book">
+  <input type="button" id="remove-book" class="button" value="Remove book">
     
   <script src="../js/utils.js"></script>
   <script src="../js/snack.js"></script>

@@ -44,14 +44,16 @@ const {
   }
   
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.storageBucket
   });
 
   const db = admin.firestore();
 
   const books = db.collection("books");
   const users = db.collection("users");
+  const storage = admin.storage();
 
   console.log("Firebase initialized");
 
-  module.exports = { db, books, users };
+  module.exports = { db, books, users, storage };
