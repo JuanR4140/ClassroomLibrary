@@ -5,8 +5,8 @@ module.exports = (socket, users, books) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
-        let query = data.query;
-        let filter = data.filter;
+        let query = data.query.toLowerCase();
+        let filter = data.filter.toLowerCase();
 
         const snapshot = await books.where(filter, "==", query).get();
         if(snapshot.empty){
