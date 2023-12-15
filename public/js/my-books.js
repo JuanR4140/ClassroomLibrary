@@ -2,9 +2,9 @@ let socket = io.connect();
 
 let showDetails = (image, title, author, genre, available, rating, reviews, isbn, type) => {
   document.querySelector("#details-img").src = image;
-  document.querySelector("#details-title").innerText = title;
-  document.querySelector("#details-author").innerText = author;
-  document.querySelector("#details-genre").innerText = genre;
+  document.querySelector("#details-title").innerText = toTitleCase(title);
+  document.querySelector("#details-author").innerText = toTitleCase(author);
+  document.querySelector("#details-genre").innerText = toTitleCase(genre);
 
   document.querySelector("#details-title").setAttribute("isbn", isbn);
   document.querySelector("#details-title").setAttribute("type", type);
@@ -148,7 +148,7 @@ socket.on("checked-out-books-results", (data) => {
     
     img.src = book.image;
     
-    span.innerText = book.title;
+    span.innerText = toTitleCase(book.title);
     
     div.appendChild(img);
     div.appendChild(span);
@@ -191,7 +191,7 @@ socket.on("wishlist-results", (data) => {
     
     img.src = book.image;
     
-    span.innerText = book.title;
+    span.innerText = toTitleCase(book.title);
     
     div.appendChild(img);
     div.appendChild(span);

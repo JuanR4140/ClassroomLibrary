@@ -3,9 +3,9 @@ let params = {};
 
 let showDetails = (image, title, author, genre, available, rating, reviews, isbn) => {
   document.querySelector("#details-img").src = image;
-  document.querySelector("#details-title").innerText = title;
-  document.querySelector("#details-author").innerText = author;
-  document.querySelector("#details-genre").innerText = genre;
+  document.querySelector("#details-title").innerText = toTitleCase(title);
+  document.querySelector("#details-author").innerText = toTitleCase(author);
+  document.querySelector("#details-genre").innerText = toTitleCase(genre);
 
   document.querySelector("#details-title").setAttribute("isbn", isbn);
 
@@ -99,7 +99,7 @@ socket.on("search-query-results", (data) => {
 
     img.src = book.image;
 
-    span.innerText = book.title;
+    span.innerText = toTitleCase(book.title);
 
     div.appendChild(img);
     div.appendChild(span);
