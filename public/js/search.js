@@ -1,7 +1,7 @@
 let socket = io.connect();
 let params = {};
 
-let showDetails = (image, title, author, genre, available, rating, reviews, isbn) => {
+let showDetails = (image, title, author, genre, available, reviews, isbn) => {
   document.querySelector("#details-img").src = image;
   document.querySelector("#details-title").innerText = toTitleCase(title);
   document.querySelector("#details-author").innerText = toTitleCase(author);
@@ -17,9 +17,13 @@ let showDetails = (image, title, author, genre, available, rating, reviews, isbn
     document.querySelector("#action-btn").value = "Add To Wishlist";
   }
 
-  document.querySelector("#rating-text").innerText = `Rating: ${rating} ${( rating == "1" ? "star" : "stars" )}`;
+/*   document.querySelector("#rating-text").innerText = `Rating: ${rating} ${( rating == "1" ? "star" : "stars" )}`;
   if(rating == "0") document.querySelector("#rating-text").innerText = "This book has no reviews yet. Be the first one!";
-  
+ */
+
+  let sum = 0;
+  let len = 0;
+
   for(const [key, value] of Object.entries(reviews)){
     // console.log(`${key} -> ${value}`);
     let div = document.createElement("div");
@@ -27,8 +31,16 @@ let showDetails = (image, title, author, genre, available, rating, reviews, isbn
     div.classList.add("review");
 
     h4.innerText = `${key} rated ${value.rating} ${( value.rating == 1 ? "star" : "stars")}: ${value.review}`;
+    sum += parseFloat(value.rating);
+    len++;
     div.appendChild(h4);
     document.querySelector(".reviews").appendChild(div);
+  }
+
+  if(len != 0){
+    document.querySelector("#rating-text").innerText = `Average Rating: ${sum / len}`;
+  }else{
+    document.querySelector("#rating-text").innerText = `This book has no reviews yet. Be the first one!`;
   }
 
   document.querySelector(".cover").style.display = "block";
@@ -105,7 +117,7 @@ socket.on("search-query-results", (data) => {
     div.appendChild(span);
 
     div.addEventListener("click", () => {
-      showDetails(book.image, book.title, book.author, book.genre, book.available, book.rating, book.reviews, book.isbn);
+      showDetails(book.image, book.title, book.author, book.genre, book.available, book.reviews, book.isbn);
     });
 
     document.body.querySelector(".books").appendChild(div);

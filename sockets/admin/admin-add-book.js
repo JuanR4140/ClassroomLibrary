@@ -37,7 +37,6 @@ module.exports = (socket, users, books, bucket) => {
                 holder: "",
                 image: `https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/${data.isbn}.jpg?alt=media`,
                 isbn: data.isbn,
-                rating: 0,
                 title: data.title.toLowerCase(),
                 reviews: {}
             });
