@@ -6,7 +6,7 @@ socket.emit("ping", {
 });
 
 socket.on("success", () => {
-  document.querySelector("#greeting").innerText = `Welcome, ${getCookie("username")}!`;
+  document.querySelector('#greeting').innerText = `Happy reading, ${getCookie("username")}!`;
 });
 
 socket.on("fatal", () => {
