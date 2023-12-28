@@ -5,7 +5,13 @@ module.exports = (socket, users, books) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
-        if(data.stars != "0"){
+        let allowed_stars = ["No, tha", "1", "2", "3", "4", "5"];
+        if(!allowed_stars.includes(data.stars)){
+            socket.emit("modify-results", {message: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"});
+            return;
+        }
+
+        if(data.stars != "No, tha"){
             if(data.review.length < 25){
                 socket.emit("modify-results", {message: "Review too short.", bgColor: "#FF5555", txColor: "#FFFFFF"});
                 return;
