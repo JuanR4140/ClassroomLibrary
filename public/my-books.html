@@ -1,73 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/common.css">
-  <link rel="stylesheet" href="css/my-books.css">
-  <link rel="stylesheet" href="css/snack.css">
-  <title>Classroom Library</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+    <title>Classroom Library</title>
+    <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="css/snack.css">
 </head>
-<body style="background-color: #B8E2F2;">
+<body class="dark:bg-slate-800">
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+    </button>
+        
+    <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="home" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="ms-3">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                        <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">My Books</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="library" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M9.674 2.075a.75.75 0 01.652 0l7.25 3.5A.75.75 0 0117 6.957V16.5h.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H3V6.957a.75.75 0 01-.576-1.382l7.25-3.5zM11 6a1 1 0 11-2 0 1 1 0 012 0zM7.5 9.75a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5zm3.25 0a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5zm3.25 0a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Library</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="inbox" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                        <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                        <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
+                    <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 hidden"></span>                    
+                    </a>
+                </li>
+                <li>
+                    <a href="settings" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M8.34 1.804A1 1 0 019.32 1h1.36a1 1 0 01.98.804l.295 1.473c.497.144.971.342 1.416.587l1.25-.834a1 1 0 011.262.125l.962.962a1 1 0 01.125 1.262l-.834 1.25c.245.445.443.919.587 1.416l1.473.294a1 1 0 01.804.98v1.361a1 1 0 01-.804.98l-1.473.295a6.95 6.95 0 01-.587 1.416l.834 1.25a1 1 0 01-.125 1.262l-.962.962a1 1 0 01-1.262.125l-1.25-.834a6.953 6.953 0 01-1.416.587l-.294 1.473a1 1 0 01-.98.804H9.32a1 1 0 01-.98-.804l-.295-1.473a6.957 6.957 0 01-1.416-.587l-1.25.834a1 1 0 01-1.262-.125l-.962-.962a1 1 0 01-.125-1.262l.834-1.25a6.957 6.957 0 01-.587-1.416l-1.473-.294A1 1 0 011 10.68V9.32a1 1 0 01.804-.98l1.473-.295c.144-.497.342-.971.587-1.416l-.834-1.25a1 1 0 01.125-1.262l.962-.962A1 1 0 015.38 3.03l1.25.834a6.957 6.957 0 011.416-.587l.294-1.473zM13 10a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </aside>
 
-  <ul>
-    <li><a href="library">Library</a></li>
-    <li><a href="home">Home</a></li>
-    <li><a class="active" href="#">My Books</a></li>
-    <li><a href="settings">Settings</a></li>
-  </ul>
+    <div id="books-screen" class="p-4 sm:ml-64">
+        <h1 class="text-2xl dark:text-white">Your Books</h1>
+        <br>
+        <h1 id="removable-notice-checked-out" class="text-md dark:text-white">Loading books..</h1>
+        <div id="checked-out-book-container" class="flex flex-wrap gap-6 gap-y-20">
 
-  <br><br><br>
+        </div>
+        <!--<div id="book-1984" class="h-48 w-24 shadow-2xl shadow-black shrink-0 flex-wrap cursor-pointer">
+            <img src="media/1984.jpg" class="h-48 w-24"><br>
+            <span class="dark:text-white">1984</span>
+        </div>-->
+        <br><br><br><br>
 
-  <div class="cover" style="display: none;">
-    
-  </div>
-  
-  <div class="details" style="display: none;">
-    <img id="details-img">
-    <h2 id="details-title"></h2>
-    <h2 id="details-author"></h2>
-    <h2 id="details-genre"></h2><br>
+        <h1 class="text-2xl dark:text-white">Your Wishlist</h1>
+        <br>
+        <h1 id="removable-notice-wishlist" class="text-md dark:text-white">Loading wishlist..</h1>
+        <div id="wishlist-container" class="flex flex-wrap gap-6 gap-y-20">
 
-    <!--<h3 id="available-text"></h3>-->
-    <input id="action-btn" class="button" type="button" value=""><br><br><br>
-    <input id="back-btn" class="button" type="button" value="Back"><br><br>
-    <select id="user-rating">
-      <option value="0">Choose star..</option>
-      <option value="1">1 star</option>
-      <option value="2">2 stars</option>
-      <option value="3">3 stars</option>
-      <option value="4">4 stars</option>
-      <option value="5">5 stars</option>
-    </select>
-    <input type="text" id="review-input" class="input" placeholder="Leave a review..">
-    <!--<h3>Check out what others are saying..</h3>
-    <h3 id="rating-text"></h3>
-    <div class="reviews">
+        </div>
+        <!--<div class="h-48 w-24 shadow-2xl shadow-black shrink-0 flex-wrap cursor-pointer">
+            <img src="media/lordoftheflies.jpg" class="h-48 w-24"><br>
+            <span class="dark:text-white">Lord Of The Flies</span>
+        </div>-->
+    </div>
 
-    </div>-->
-  </div>
+    <div id="details-screen" class="p-4 sm:ml-64 hidden">
+        <div class="h-72 w-full border-4 rounded-md border-black dark:border-slate-500 bg-slate-200 dark:bg-gray-700 p-4">
+            <img id="details-img" src="" class="h-60 w-32 shadow-xl shadow-black float-left">
+            <h1 id="details-title" class="text-3xl dark:text-white relative top-0 left-7"></h1>
+            <h1 id="details-author" class="text-xl dark:text-white relative top-8 left-7">Author:<br></h1>
+            <h1 id="details-genre" class="text-lg dark:text-white relative top-16 left-7">Genre:<br></h1>
+        </div>
+        <br>
 
-  
-  <h2 id="my-books">My Books</h2>
-  <h3 id="removable-notice-checked-out">Loading..</h3>
-  <div class="books">
-    
-  </div>
+        <a id="back-btn" class="text-md dark:text-white underline cursor-pointer">&lt&lt See all books</a>
 
-  <br><br><br>
-  
-  <h2 id="my-wishlist">My Wishlist</h2>
-  <h3 id="removable-notice-wishlist">Loading..</h3>
-  <div class="wishlist">
-    
-  </div>
+        <br><br>
+        <h1 id="return-date-text" class="text-xl dark:text-white">Return dates are still being implemented!<!--This book is due on 12/25/23!--></h1>
+        <br>
+        <button id="return-book-btn" data-modal-target="return-modal" data-modal-toggle="return-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Return Book</button>
+        <button id="extend-book-btn" data-modal-target="extend-modal" data-modal-toggle="extend-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Extend Due Date</button>
+        <button id="remove-wishlist-btn" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Remove from wishlist</button>
+        <br><br>
 
-  <script src="js/snack.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/my-books.js"></script>
-  
+
+        <!-- Main Return modal -->
+        <div id="return-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 id="returning-modal-text" class="text-xl font-semibold text-gray-900 dark:text-white text-center">
+                            .....
+                        </h3>
+                        <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="return-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-4 md:p-5">
+                        <form class="space-y-4" action="#">
+                            <div>
+                                <h1 class="text-md text-center dark:text-white">Thank you for turning in the book!<br>
+                                Please place the physical copy back in the library so others can read it too! :D</h1>
+                            </div>
+                            <div>
+                                <h1 class="text-md text-center dark:text-white">Would you like to leave a review on this book?<br>
+                                It would help others a lot!</h1><br>
+
+
+                                <button id="rating-dropdown-button" data-dropdown-toggle="rating-dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">No, thank you <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                    </svg>
+                                </button>
+                                    
+                                <!-- Dropdown menu -->
+                                <div id="rating-dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                        <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">5 Stars 😃</a>
+                                        </li>
+                                        <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">4 Stars 🙂</a>
+                                        </li>
+                                        <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">3 Stars 😐</a>
+                                        </li>
+                                        <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">2 Stars 😕</a>
+                                        </li>
+                                        <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">1 Star 😞</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <br><br>
+
+                                <input type="text" id="rating-input" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rating.." required>
+
+                            </div>
+                            <button id="return-book-btn-final" type="input" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Return Book</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Extend modal -->
+        <div id="extend-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 id="extending-modal-text" class="text-xl font-semibold text-gray-900 dark:text-white text-center">
+                            .....
+                        </h3>
+                        <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="extend-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-4 md:p-5">
+                        <form class="space-y-4" action="#">
+                            <div>
+                                <h1 class="text-md text-center dark:text-white">Like the book?<br>
+                                Feel free to extend your due date to continue reading!</h1>
+                            </div>
+                            <div>
+                                <!--<h1 class="text-md text-center dark:text-white">Would you like to leave a review on this book?<br>
+                                It would help others a lot!</h1><br>-->
+
+                                <br>
+                                <div class="relative max-w-sm">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                      </svg>
+                                    </div>
+                                    <input id="datepicker" datepicker readonly="readonly" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                </div><br><br>
+
+                            <button id="extend-book-btn-final" type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Extend Due Date!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let ratings = document.querySelector("#rating-dropdown").querySelectorAll("a");
+
+        for(let i = 0; i < ratings.length; i++){
+            ratings[i].addEventListener("click", () => {
+                document.querySelector("#rating-dropdown-button").innerHTML = `${ratings[i].innerText} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                </svg>`;
+                document.querySelector("#rating-dropdown-button").click();
+
+                document.querySelector("#rating-dropdown").classList.remove("block");
+                document.querySelector("#rating-dropdown").classList.add("hidden");
+
+                document.querySelector("#rating-input").classList.remove("hidden");
+                document.querySelector("#rating-input").classList.add("block");
+            });
+        }
+
+    </script>
+
+    <script src="js/snack.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/my-books.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/datepicker.min.js"></script>
 </body>
 </html>
