@@ -14,7 +14,22 @@ socket.on("fatal", () => {
   window.location.href = "/";
 });
 
-document.querySelector("#filter").addEventListener("change", () => {
+document.querySelector("#search-button").addEventListener("click", (e) => {
+  e.preventDefault();
+  let url = "";
+
+  if(document.querySelector("#dropdown-button").innerHTML.includes("Genre")){
+    url = `search?query=${document.querySelector("#dropdown-genre-button").innerHTML.split(" ")[0].toLowerCase()}&filter=genre`;
+  }else{
+    url = `search?query=${document.querySelector("#search-dropdown").value}&filter=${document.querySelector("#dropdown-button").innerHTML.split(" ")[0].toLowerCase()}`;
+  }
+
+  const encodedUrl = encodeURI(url);
+  window.location.href = encodedUrl;
+
+});
+
+/*document.querySelector("#filter").addEventListener("change", () => {
   document.querySelector("#search-bar").placeholder = `Enter ${document.querySelector("#filter").value.replace("-", " ")}..`
 });
 
@@ -30,4 +45,4 @@ document.querySelector("#search-btn").addEventListener("click", () => {
   const encodedUrl = encodeURI(url);
   window.location.href = encodedUrl;
 
-});
+});*/
