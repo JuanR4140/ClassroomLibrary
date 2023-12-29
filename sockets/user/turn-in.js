@@ -34,7 +34,7 @@ module.exports = (socket, users, books) => {
                 holder: ""
             });
 
-            if(data.stars != "0"){
+            if(data.stars != "N"){
                 let reviews = book.data().reviews;
                 let d = {
                     rating: parseInt(data.stars),
