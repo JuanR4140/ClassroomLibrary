@@ -1,6 +1,6 @@
 let socket = io.connect();
 
-let showDetails = (image, title, author, genre, isbn, type) => {
+let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) => {
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
   document.querySelector("#details-title").innerText = toTitleCase(title);
@@ -15,6 +15,12 @@ let showDetails = (image, title, author, genre, isbn, type) => {
   if(type == "book"){
     document.querySelector("#return-date-text").classList.remove("hidden");
     document.querySelector("#return-date-text").classList.add("block");
+    
+    let return_date = new Date(return_date_epoch * 1000);
+    let month = return_date.getMonth() + 1;
+    let day = return_date.getDate();
+    let year = return_date.getFullYear();
+    document.querySelector("#return-date-text").innerText = `This book is due on ${month}/${day}/${year}!`;
 
     document.querySelector("#return-book-btn").classList.remove("hidden");
     document.querySelector("#return-book-btn").classList.add("inline-block");
@@ -85,7 +91,13 @@ document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
 });
 
 document.querySelector("#extend-book-btn-final").addEventListener("click", () => {
-  alert("Return dates are still being implemented!");
+  socket.emit("extend-return-date", {
+    username: getCookie("username"),
+    token: getCookie("token"),
+
+    isbn: document.querySelector("#details-title").getAttribute("isbn"),
+    return_date: document.querySelector("#datepicker").value
+  });
 });
 
 socket.emit("ping", {
@@ -131,7 +143,7 @@ socket.on("checked-out-books-results", (data) => {
     book_div.appendChild(book_span);
 
     book_div.addEventListener("click", () => {
-      showDetails(book.image, book.title, book.author, book.genre, book.isbn, "book");
+      showDetails(book.image, book.title, book.author, book.genre, book.isbn, book.return_date, "book");
     });
 
     checked_out_book_container.appendChild(book_div);
@@ -165,7 +177,7 @@ socket.on("wishlist-results", (data) => {
     book_div.appendChild(book_span);
 
     book_div.addEventListener("click", () => {
-      showDetails(book.image, book.title, book.author, book.genre, book.isbn, "wishlist");
+      showDetails(book.image, book.title, book.author, book.genre, book.isbn, null, "wishlist");
     });
 
     wishlist_container.appendChild(book_div);

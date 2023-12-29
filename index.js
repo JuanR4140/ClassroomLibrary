@@ -25,6 +25,7 @@ io.on("connection", (socket) => {
     require("./sockets/user/search-query.js")(socket, users, books);
     require("./sockets/user/check-out.js")(socket, users, books);
     require("./sockets/user/turn-in.js")(socket, users, books);
+    require("./sockets/user/extend-return-date.js")(socket, users, books);
     require("./sockets/user/get-checked-out-books.js")(socket, users, books);
     require("./sockets/user/add-wishlist.js")(socket, users, books);
     require("./sockets/user/remove-wishlist.js")(socket, users, books);

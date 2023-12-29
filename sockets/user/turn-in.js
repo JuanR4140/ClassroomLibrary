@@ -31,7 +31,8 @@ module.exports = (socket, users, books) => {
             });
             books.doc(book.data().isbn).update({
                 available: true,
-                holder: ""
+                holder: "",
+                return_date: ""
             });
 
             if(data.stars != "N"){
