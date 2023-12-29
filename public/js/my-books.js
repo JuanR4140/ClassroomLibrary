@@ -70,7 +70,7 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
 
     isbn: document.querySelector("#details-title").getAttribute("isbn"),
 
-    stars: document.querySelector("#rating-dropdown-button").innerHTML.slice(0, 7),
+    stars: document.querySelector("#rating-dropdown-button").innerHTML.slice(0, 1),
     review: document.querySelector("#rating-input").value
   });
 });
