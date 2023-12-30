@@ -77,7 +77,8 @@ socket.on("get-mail-results", (data) => {
         mail_div.appendChild(mail_title);
         mail_div.appendChild(mail_author);
         mail_div.appendChild(mail_date);
-        mail_div.appendChild(mail_break);
+
+        mail_root_div.appendChild(mail_break);
 
         mail_div.addEventListener("click", () => {
             showDetails(mail.title, mail.message, mail.id);
