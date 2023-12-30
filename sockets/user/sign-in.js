@@ -3,6 +3,8 @@ const saltrounds = 10;
 
 const { verify } = require("../../utils/verify.js");
 const { generateToken } = require("../../utils/generateToken.js");
+const { MailConstructor } = require("../../utils/templateMails.js");
+const { sendMail } = require("../../utils/sendMail.js");
 
 module.exports = (socket, users) => {
     socket.on("sign-in", async (data) => {
@@ -51,6 +53,14 @@ module.exports = (socket, users) => {
                     books: [],
                     wishlist: []
                 });
+
+                // When a user creates an account,
+                // they'll get sent a welcome email :)
+
+                const mail_constructor = new MailConstructor(email, Date.now() / 1000);
+                let mail = mail_constructor.constructMail("welcome");
+                sendMail(email, mail, users);
+
                 socket.emit("sign-in-result", {
                     message: "Account created! Redirecting..",
                     bgColor: "#55FF55",
