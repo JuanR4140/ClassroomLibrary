@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+    <title>Classroom Library</title>
+    <link rel="stylesheet" href="css/snack.css">
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body class="dark:bg-slate-800">
+
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+     </button>
+     
+     <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+           <ul class="space-y-2 font-medium">
+              <li>
+                 <a href="home" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                     <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                   </svg>
+                    <span class="ms-3">Home</span>
+                 </a>
+              </li>
+              <li>
+                 <a href="my-books" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                     <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
+                   </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">My Books</span>
+                 </a>
+              </li>
+              <li>
+                 <a href="library" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                     <path fill-rule="evenodd" d="M9.674 2.075a.75.75 0 01.652 0l7.25 3.5A.75.75 0 0117 6.957V16.5h.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H3V6.957a.75.75 0 01-.576-1.382l7.25-3.5zM11 6a1 1 0 11-2 0 1 1 0 012 0zM7.5 9.75a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5zm3.25 0a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5zm3.25 0a.75.75 0 00-1.5 0v5.5a.75.75 0 001.5 0v-5.5z" clip-rule="evenodd" />
+                   </svg>                   
+                    <span class="flex-1 ms-3 whitespace-nowrap">Library</span>
+                 </a>
+              </li>
+              <li>
+                 <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                     <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                     <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                   </svg>                   
+                    <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
+                    <span id="mail-unread-indicator" class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 hidden"></span>                    
+                 </a>
+              </li>
+              <li>
+                 <a href="settings" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+                     <path fill-rule="evenodd" d="M8.34 1.804A1 1 0 019.32 1h1.36a1 1 0 01.98.804l.295 1.473c.497.144.971.342 1.416.587l1.25-.834a1 1 0 011.262.125l.962.962a1 1 0 01.125 1.262l-.834 1.25c.245.445.443.919.587 1.416l1.473.294a1 1 0 01.804.98v1.361a1 1 0 01-.804.98l-1.473.295a6.95 6.95 0 01-.587 1.416l.834 1.25a1 1 0 01-.125 1.262l-.962.962a1 1 0 01-1.262.125l-1.25-.834a6.953 6.953 0 01-1.416.587l-.294 1.473a1 1 0 01-.98.804H9.32a1 1 0 01-.98-.804l-.295-1.473a6.957 6.957 0 01-1.416-.587l-1.25.834a1 1 0 01-1.262-.125l-.962-.962a1 1 0 01-.125-1.262l.834-1.25a6.957 6.957 0 01-.587-1.416l-1.473-.294A1 1 0 011 10.68V9.32a1 1 0 01.804-.98l1.473-.295c.144-.497.342-.971.587-1.416l-.834-1.25a1 1 0 01.125-1.262l.962-.962A1 1 0 015.38 3.03l1.25.834a6.957 6.957 0 011.416-.587l.294-1.473zM13 10a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
+                   </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Settings</span>
+                 </a>
+              </li>
+              
+           </ul>
+        </div>
+     </aside>
+    
+    <div id="inbox-menu" class="p-4 sm:ml-64">
+         <h1 id="removable-notice" class="text-xl dark:text-white text-center">Fetching mail..</h1>
+        <div id="mail-root-div">
+         <!--
+            <div class="w-full p-4 border-4 rounded-md border-black dark:border-slate-500 bg-slate-200 dark:bg-gray-700 cursor-pointer">
+                <h1 class="text-xl text-sky-500 dark:text-sky-600 underline font-bold">DUE BOOK NOTICE</h1>
+                <h1 class="text-lg dark:text-white">FROM [SYSTEM]</h1>
+                <h1 class="text-md dark:text-white">12/19/23</h1>
+            </div>
+            <br>
+            <div class="w-full p-4 border-4 rounded-md border-black dark:border-slate-500 bg-slate-200 dark:bg-gray-700 cursor-pointer">
+                <h1 class="text-xl dark:text-white underline">Welcome to the classroom library!</h1>
+                <h1 class="text-lg dark:text-white">FROM [SYSTEM]</h1>
+                <h1 class="text-md dark:text-white">11/16/23</h1>
+            </div>-->
+        </div>
+    </div>
+
+    <div id="inbox-details" class="p-4 sm:ml-64 hidden">
+        <h1 id="details-title" class="text-2xl dark:text-white"></h1><br>
+        <h1 id="details-message" class="text-xl dark:text-white"></h1><br>
+        <hr>
+        <br>
+
+        <a id="back-btn" class="text-md dark:text-white underline cursor-pointer">&lt&lt See all mail</a>
+
+        <br><br>
+        <button id="delete-mail-btn" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
+    </div>
+
+    <!--<script>
+        document.querySelector("#inbox-menu").addEventListener("click", () => {
+            document.querySelector("#inbox-menu").classList.remove("block");
+            document.querySelector("#inbox-menu").classList.add("hidden");
+
+            document.querySelector("#inbox-details").classList.remove("hidden");
+            document.querySelector("#inbox-details").classList.add("block");
+        });
+    </script>-->
+
+    <script src="js/utils.js"></script>
+    <script src="js/snack.js"></script>
+    <script src="js/inbox.js"></script>
+
+    <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+</body>
+</html>

@@ -29,6 +29,10 @@ let registerRoutes = (app) => {
         RenderFile(res, "my-books");
     });
 
+    app.get("/inbox", (req, res) => {
+        RenderFile(res, "inbox");
+    });
+
     app.get("/settings", (req, res) => {
         RenderFile(res, "settings");
     });

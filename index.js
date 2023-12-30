@@ -30,6 +30,9 @@ io.on("connection", (socket) => {
     require("./sockets/user/add-wishlist.js")(socket, users, books);
     require("./sockets/user/remove-wishlist.js")(socket, users, books);
     require("./sockets/user/get-wishlist.js")(socket, users, books);
+    require("./sockets/user/get-mail.js")(socket, users);
+    require("./sockets/user/mark-read.js")(socket, users);
+    require("./sockets/user/delete-mail.js")(socket, users);
 
 
     require("./sockets/admin/admin-sign-in.js")(socket, users);
