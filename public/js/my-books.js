@@ -105,7 +105,14 @@ socket.emit("ping", {
   token: getCookie("token")
 });
 
-socket.on("success", () => {
+socket.on("success", (data) => {
+
+  if(data.unread > 0){
+    document.querySelector("#mail-unread-indicator").classList.remove("hidden");
+    document.querySelector("#mail-unread-indicator").innerText = `${data.unread}`;
+    document.querySelector("#mail-unread-indicator").classList.add("block");
+  }
+
   socket.emit("get-checked-out-books", {
     username: getCookie("username"),
     token: getCookie("token")

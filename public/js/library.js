@@ -5,8 +5,12 @@ socket.emit("ping", {
   token: getCookie("token")
 });
 
-socket.on("success", () => {
-  createSnackbar("Success!", "#55FF55", "#000000");
+socket.on("success", (data) => {
+  if(data.unread > 0){
+    document.querySelector("#mail-unread-indicator").classList.remove("hidden");
+    document.querySelector("#mail-unread-indicator").innerText = `${data.unread}`;
+    document.querySelector("#mail-unread-indicator").classList.add("block");
+  }
 });
 
 socket.on("fatal", () => {

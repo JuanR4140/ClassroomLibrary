@@ -4,6 +4,12 @@ module.exports = (socket, users) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
-        socket.emit("success");
+        let ping_results = {}
+        
+        // User is verified, get amount of unread mail
+        const snapshot = await users.doc(data.username).collection("inbox").where("unread", "==", true).get();
+        ping_results.unread = snapshot._size;
+
+        socket.emit("success", ping_results);
     });
 }

@@ -1,8 +1,3 @@
-// TODO
-// Make actual reviews show up with their own star rating
-// be able to go back, hook up check out and wishlist buttons to actually work
-// Good luck. :)
-
 let socket = io.connect();
 let params = {};
 
@@ -134,7 +129,14 @@ socket.emit("ping", {
   token: getCookie("token")
 });
 
-socket.on("success", () => {
+socket.on("success", (data) => {
+
+  if(data.unread > 0){
+    document.querySelector("#mail-unread-indicator").classList.remove("hidden");
+    document.querySelector("#mail-unread-indicator").innerText = `${data.unread}`;
+    document.querySelector("#mail-unread-indicator").classList.add("block");
+  }
+
   const urlParams = new URLSearchParams(location.search);
   for(const [key, value] of urlParams){
     params[key] = value;
