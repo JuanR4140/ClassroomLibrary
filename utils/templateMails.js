@@ -1,6 +1,7 @@
 
 const mail_templates = {
     welcome: {
+        recipient: "",
         unread: true,
         title: "Welcome to the classroom library!",
         author: "[SYSTEM]",
@@ -9,6 +10,7 @@ const mail_templates = {
     },
 
     book_due:{
+        recipient: "",
         unread: true,
         title: "DUE BOOK NOTICE",
         author: "[SYSTEM]",
@@ -20,12 +22,14 @@ const mail_templates = {
 class MailConstructor{
     constructor(username, date){
         this.username = username;
+        this.recipient = username;
         this.date = date;
     }
 
     constructMail(template, arg1, arg2){
         let mail_template = { ...mail_templates[template] };
 
+        mail_template.recipient = this.username;
         mail_template.date = this.date;
         mail_template.message = mail_template.message.replace("[USER]", this.username);
 

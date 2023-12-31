@@ -42,5 +42,8 @@ io.on("connection", (socket) => {
 
 });
 
+const { registerDueBookNoticeChecks } = require("./system/schedulers.js");
+registerDueBookNoticeChecks(users, email_queue);
+
 const { registerRoutes } = require("./routes/routes.js");
 registerRoutes(app);
