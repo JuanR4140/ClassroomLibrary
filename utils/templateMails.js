@@ -1,5 +1,5 @@
 
-let mail_templates = {
+const mail_templates = {
     welcome: {
         unread: true,
         title: "Welcome to the classroom library!",
@@ -24,7 +24,7 @@ class MailConstructor{
     }
 
     constructMail(template, arg1, arg2){
-        let mail_template = mail_templates[template];
+        let mail_template = { ...mail_templates[template] };
 
         mail_template.date = this.date;
         mail_template.message = mail_template.message.replace("[USER]", this.username);
