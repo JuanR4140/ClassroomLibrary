@@ -51,9 +51,25 @@ let registerRoutes = (app) => {
         RenderFile(res, "admin/dashboard");
     });
 
-    app.get("/admin/library", (req, res) => {
-        RenderFile(res, "admin/library");
+    app.get("/admin/books", (req, res) => {
+        RenderFile(res, "admin/books");
     });
+
+    app.get("/admin/students", (req, res) => {
+        RenderFile(res, "admin/students");
+    });
+
+    app.get("/admin/mail", (req, res) => {
+        RenderFile(res, "admin/mail");
+    });
+
+    app.get("/admin/advanced", (req, res) => {
+        RenderFile(res, "admin/advanced");
+    });
+
+    /*app.get("/admin/library", (req, res) => {
+        RenderFile(res, "admin/library");
+    });*/
 
     console.log("All routes registered.");
 }

@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="css/login.css">
-  <link rel="stylesheet" href="../css/snack.css">
-  <title>Classroom Library</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/snack.css">
+    <title>Classroom Library</title>
+    <link rel="stylesheet" href="../css/output.css"> 
 </head>
-<body style="background-color: #B8E2F2;">
-  <div class="btn-wrapper">
-    <h1>Classroom Library</h1>
-    <h2>Sign in to access management systems.</h2><br>  
-    
-    <form>
+<body class="dark:bg-slate-800">
+    <br>
+    <div class="p-4">
+        <h1 class="text-center text-3xl dark:text-white">Classroom Library</h1><br>
+        <h2 class="text-center text-xl dark:text-slate-200">Log in to access management systems.</h2><br><br><br>
+    </div>
 
-      <input id="email" class="input" type="email" name="" placeholder="Enter email"><br><br>
-      <input id="password" class="input" type="password" name="" placeholder="Enter password.."><br><br>
-      <input id="sign-in" type="button" value="Sign In">
-      
+    <form class="max-w-sm mx-auto p-8 border-4 border-solid rounded-md border-black dark:border-slate-500 bg-slate-200 dark:bg-gray-800 max-md:max-w-xs">
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Email</label>
+        <div class="relative"> 
+        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+            </svg>
+        </div>
+        <input type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email..">
+        </div>
+        <br>
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Password</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-2 pointer-events-none">
+                <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" data-slot="icon">
+                    <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                </svg>  
+            </div>
+            <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password..">
+        </div><br>
+
+        <input type="button" id="sign-in" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value="Sign In">
+        
     </form>
-  </div>
 
-  <script src="../js/utils.js"></script>
-  <script src="../js/snack.js"></script>
-  <script src="js/login.js"></script>
-  
+    <script src="../js/utils.js"></script>
+    <script src="../js/snack.js"></script>
+    <script src="js/login.js"></script>
+
 </body>
 </html>
