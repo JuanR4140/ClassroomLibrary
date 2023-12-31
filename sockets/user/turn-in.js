@@ -1,6 +1,6 @@
 const { verify } = require("../../utils/verify.js");
 
-module.exports = (socket, users, books) => {
+module.exports = (socket, users, books, email_queue) => {
     socket.on("turn-in", async (data) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
@@ -34,6 +34,14 @@ module.exports = (socket, users, books) => {
                 holder: "",
                 return_date: ""
             });
+
+            let mail_db_ref = await email_queue.doc(book.data().isbn);
+            let mail_db = await mail_db_ref.get();
+
+            // Check if two week notice mail exists for the book, if it does, delete it
+            if(mail_db.exists){
+                mail_db_ref.delete();
+            }
 
             if(data.stars != "N"){
                 let reviews = book.data().reviews;

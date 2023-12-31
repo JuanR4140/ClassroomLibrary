@@ -1,7 +1,7 @@
 
-let sendMail = (username, mail, users) => {
+let sendMail = async (username, mail, users) => {
     // Simple for now, but should be logged when server logging is implemented
-    users.doc(username).collection("inbox").add(mail);
+    await users.doc(username).collection("inbox").add(mail);
 }
 
 module.exports = {

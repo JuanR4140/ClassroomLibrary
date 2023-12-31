@@ -2,7 +2,7 @@ require("dotenv").config();
 const ejs = require("ejs");
 const express = require("express");
 
-const { db, books, users, bucket } = require("./firebase/firebase.js");
+const { db, books, users, email_queue, bucket } = require("./firebase/firebase.js");
 
 const PORT = 3000;
 
@@ -23,9 +23,9 @@ io.on("connection", (socket) => {
     
     require("./sockets/user/sign-in.js")(socket, users);
     require("./sockets/user/search-query.js")(socket, users, books);
-    require("./sockets/user/check-out.js")(socket, users, books);
-    require("./sockets/user/turn-in.js")(socket, users, books);
-    require("./sockets/user/extend-return-date.js")(socket, users, books);
+    require("./sockets/user/check-out.js")(socket, users, books, email_queue);
+    require("./sockets/user/turn-in.js")(socket, users, books, email_queue);
+    require("./sockets/user/extend-return-date.js")(socket, users, books, email_queue);
     require("./sockets/user/get-checked-out-books.js")(socket, users, books);
     require("./sockets/user/add-wishlist.js")(socket, users, books);
     require("./sockets/user/remove-wishlist.js")(socket, users, books);
