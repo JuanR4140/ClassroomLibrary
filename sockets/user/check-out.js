@@ -1,6 +1,7 @@
 const { MailConstructor } = require("../../utils/templateMails.js");
 const { queueMail } = require("../../utils/queueMail.js");
 const { toTitleCase } = require("../../utils/toTitleCase.js");
+const { logger } = require("../../system/logger.js");
 const { verify } = require("../../utils/verify.js");
 
 module.exports = (socket, users, books, email_queue) => {
@@ -49,6 +50,7 @@ module.exports = (socket, users, books, email_queue) => {
                 queueMail(book.data().isbn, mail, email_queue);
             }
 
+            logger.log(`[INFO] ${data.username} checked out ${toTitleCase(book.data().title)}.`);
             socket.emit("check-out-result", {message: "Checked out book!", bgColor: "#55FF55", txColor: "#000000", code: 200});
         }else{
             socket.emit("check-out-result", {message: "Could not check out book.", bgColor: "#FF5555", txColor: "#FFFFFF"});

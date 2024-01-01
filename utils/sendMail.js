@@ -1,7 +1,8 @@
+const { logger } = require("../system/logger.js");
 
 let sendMail = async (username, mail, users) => {
-    // Simple for now, but should be logged when server logging is implemented
     await users.doc(username).collection("inbox").add(mail);
+    logger.log(`[INFO] Sent mail to ${mail.recipient}'s inbox.`);
 }
 
 module.exports = {

@@ -1,3 +1,6 @@
+const { logger } = require("./system/logger.js");
+logger.log("[INFO] SYSTEM is initializing all core components..");
+
 require("dotenv").config();
 const ejs = require("ejs");
 const express = require("express");
@@ -11,11 +14,14 @@ const app = express();
 app.engine("html", ejs.renderFile);
 app.use(express.static("./public"));
 
-const server = app.listen(PORT, () => {console.log(`Listening on port ${PORT}! 🚀`)});
+const server = app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}! 🚀`);
+    logger.log("[INFO] SYSTEM intialized all core components. Ready for requests!");
+});
+
 const io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
-    console.log("New connection.");
 
     require("./sockets/ping.js")(socket, users);
     require("./sockets/admin-ping.js")(socket, users);

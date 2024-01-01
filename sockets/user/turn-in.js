@@ -1,3 +1,5 @@
+const { toTitleCase } = require("../../utils/toTitleCase.js");
+const { logger } = require("../../system/logger.js");
 const { verify } = require("../../utils/verify.js");
 
 module.exports = (socket, users, books, email_queue) => {
@@ -56,6 +58,7 @@ module.exports = (socket, users, books, email_queue) => {
                 });
             }
 
+            logger.log(`[INFO] ${data.username} returned book ${toTitleCase(book.data().title)}.`);
             socket.emit("modify-results", {message: "Book turned in!", bgColor: "#55FF55", txColor: "#000000"});
         }else{
             socket.emit("modify-results", {message: "Could not turn in book.", bgColor: "#FF5555", txColor: "#FFFFFF"});

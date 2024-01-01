@@ -5,6 +5,7 @@ const { verify } = require("../../utils/verify.js");
 const { generateToken } = require("../../utils/generateToken.js");
 const { MailConstructor } = require("../../utils/templateMails.js");
 const { sendMail } = require("../../utils/sendMail.js");
+const { logger } = require("../../system/logger.js");
 
 module.exports = (socket, users) => {
     socket.on("sign-in", async (data) => {
@@ -34,6 +35,7 @@ module.exports = (socket, users) => {
                 users.doc(email).update({
                     token: token
                 });
+                logger.log(`[INFO] ${email} logged in.`);
                 socket.emit("sign-in-result", {
                     message: "Logged in! Redirecting..",
                     bgColor: "#55FF55",
@@ -53,6 +55,7 @@ module.exports = (socket, users) => {
                     books: [],
                     wishlist: []
                 });
+                logger.log(`[INFO] Account created for ${email}.`);
 
                 // When a user creates an account,
                 // they'll get sent a welcome email :)
