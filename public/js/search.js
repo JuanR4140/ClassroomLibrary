@@ -1,5 +1,8 @@
 let socket = io.connect();
 let params = {};
+let lastResult;
+let finishedLoading = false;
+let queryFinished = false;
 
 let showDetails = (image, title, author, genre, available, reviews, isbn) => {
   // Load all data first before switching screens
@@ -151,14 +154,36 @@ socket.on("success", (data) => {
 });
 
 socket.on("search-query-results", (data) => {
-  console.log(data);
-  document.querySelector("#search-result-text").innerText = `Results for ${params.filter} "${params.query}"`;
-  document.querySelector("#search-result-amnt").innerText = `Fetched ${data.length} ${(data.length == 1 ? "book" : "books" )}!`;
+  lastResult = data.lastResult;
+  finishedLoading = true;   // query result finished
 
-  if(data.length == 0) return;
+  console.log(data);
+  console.log(data.lastResult);
+  console.log(data.results);
+  document.querySelector("#search-result-text").innerText = `Results for ${params.filter} "${params.query}"`;
+  if(document.querySelector("#search-result-amnt").innerText.includes("Fetched")){
+    let num = parseInt(document.querySelector("#search-result-amnt").innerText.split(" ")[1]);
+    num += data.results.length;
+    document.querySelector("#search-result-amnt").innerText = `Fetched ${num} ${num == 1 ? "book" : "books"}!`;
+  }else{
+    document.querySelector("#search-result-amnt").innerText = `Fetched ${data.results.length} ${(data.results.length == 1 ? "book" : "books" )}!`;
+  }
+
+  if(data.results.length == 0){
+    // set properties if the query result no more matches
+    document.querySelector("#fetch-more-results-btn").remove();
+    document.querySelector("#no-more-results").innerText = "No more results!";
+    queryFinished = true;
+    return;
+  }
+
+  document.querySelector("#fetch-more-results-btn").classList.remove("hidden");
+  document.querySelector("#fetch-more-results-btn").classList.add("inline-block");
+
+  document.querySelector("#no-more-results").innerText = "";
   
   // let id = 0;
-  data.forEach((book) => {
+  data.results.forEach((book) => {
 
     let book_container = document.querySelector("#book-container");
 
@@ -183,6 +208,47 @@ socket.on("search-query-results", (data) => {
 
     book_container.appendChild(book_div);
   });
+});
+
+window.addEventListener("scroll", () => {
+  const content = document.querySelector("#book-container");
+  // Only fetch more content when
+  // a) the window scroll is further down than the book container's height
+  // b) the query has finished loading (fetching and loading content)
+  // c) the query itself hasn't finished (i.e a search returned one or more matches)
+  if(window.innerHeight + window.scrollY >= content.offsetHeight && finishedLoading && !queryFinished){
+    finishedLoading = false;
+    document.querySelector("#no-more-results").innerText = "Fetching more results..";
+    document.querySelector("#fetch-more-results-btn").classList.remove("inline-block");
+    document.querySelector("#fetch-more-results-btn").classList.add("hidden");
+    socket.emit("search-query", {
+      username: getCookie("username"),
+      token: getCookie("token"),
+
+      query: params.query,
+      filter: params.filter,
+
+      lastResult: lastResult
+    });
+  }
+});
+
+document.querySelector("#fetch-more-results-btn").addEventListener("click", () => {
+  if(finishedLoading && !queryFinished){
+    finishedLoading = false;
+    document.querySelector("#no-more-results").innerText = "Fetching more results..";
+    document.querySelector("#fetch-more-results-btn").classList.remove("inline-block");
+    document.querySelector("#fetch-more-results-btn").classList.add("hidden");
+    socket.emit("search-query", {
+      username: getCookie("username"),
+      token: getCookie("token"),
+
+      query: params.query,
+      filter: params.filter,
+
+      lastResult: lastResult
+    });
+  }
 });
 
 document.querySelector("#check-out-btn-final").addEventListener("click", () => {
@@ -230,119 +296,3 @@ socket.on("add-wishlist-result", (data) => {
 socket.on("fatal", () => {
   window.location.href = "/";
 });
-
-/*let socket = io.connect();
-let params = {};
-
-let showDetails = (image, title, author, genre, available, reviews, isbn) => {
-  document.querySelector("#details-img").src = image;
-  document.querySelector("#details-title").innerText = toTitleCase(title);
-  document.querySelector("#details-author").innerText = toTitleCase(author);
-  document.querySelector("#details-genre").innerText = toTitleCase(genre);
-
-  document.querySelector("#details-title").setAttribute("isbn", isbn);
-
-  if(available){
-    document.querySelector("#available-text").innerText = "This book is available to check out!";
-    document.querySelector("#action-btn").value = "Check Out";
-  }else{
-    document.querySelector("#available-text").innerText = "This book is currently checked out..";
-    document.querySelector("#action-btn").value = "Add To Wishlist";
-  }
-
-   document.querySelector("#rating-text").innerText = `Rating: ${rating} ${( rating == "1" ? "star" : "stars" )}`;
-  if(rating == "0") document.querySelector("#rating-text").innerText = "This book has no reviews yet. Be the first one!";
- 
-
-  let sum = 0;
-  let len = 0;
-
-  for(const [key, value] of Object.entries(reviews)){
-    // console.log(`${key} -> ${value}`);
-    let div = document.createElement("div");
-    let h4 = document.createElement("h4");
-    div.classList.add("review");
-
-    h4.innerText = `${key} rated ${value.rating} ${( value.rating == 1 ? "star" : "stars")}: ${value.review}`;
-    sum += parseFloat(value.rating);
-    len++;
-    div.appendChild(h4);
-    document.querySelector(".reviews").appendChild(div);
-  }
-
-  if(len != 0){
-    document.querySelector("#rating-text").innerText = `Average Rating: ${sum / len}`;
-  }else{
-    document.querySelector("#rating-text").innerText = `This book has no reviews yet. Be the first one!`;
-  }
-
-  document.querySelector(".cover").style.display = "block";
-  document.querySelector(".details").style.display = "block";
-
-  document.querySelector("#search-result-text").style.display = "none";
-  document.querySelector("#search-result-amnt").style.display = "none";
-  document.querySelector(".books").style.display = "none";
-}
-
-document.querySelector("#back-btn").addEventListener("click", () => {
-  document.querySelector("#details-img").src = "";
-  document.querySelector("#details-title").innerText = "";
-  document.querySelector("#details-author").innerText = "";
-  document.querySelector("#details-genre").innerText = "";
-
-  document.querySelector("#details-title").removeAttribute("isbn");
-
-  document.querySelector("#available-text").innerText = "";
-  document.querySelector("#action-btn").value = "";
-
-  document.querySelector("#rating-text").innerText = "";
-
-  document.querySelector(".reviews").innerHTML = "";
-
-  document.querySelector(".cover").style.display = "none";
-  document.querySelector(".details").style.display = "none";
-
-  document.querySelector("#search-result-text").style.display = "block";
-  document.querySelector("#search-result-amnt").style.display = "block";
-  document.querySelector(".books").style.display = "flex";
-});
-
-document.querySelector("#action-btn").addEventListener("click", () => {
-  let action = document.querySelector("#action-btn").value;
-  switch(action){
-    case "Check Out":{
-      socket.emit("check-out", {
-        username: getCookie("username"),
-        token: getCookie("token"),
-
-        isbn: document.querySelector("#details-title").getAttribute("isbn")
-      });
-      break;
-    }
-    case "Add To Wishlist":{
-      socket.emit("add-wishlist", {
-        username: getCookie("username"),
-        token: getCookie("token"),
-
-        isbn: document.querySelector("#details-title").getAttribute("isbn")
-      });
-      break;
-    }
-    default:{
-      createSnackbar(`Could not perform action: ${action}`, "#FF5555", "#FFFFFF");
-      break;
-    }
-  }
-});
-
-socket.on("check-out-result", (data) => {
-  createSnackbar(data.message, data.bgColor, data.txColor);
-});
-
-socket.on("add-wishlist-result", (data) => {
-  createSnackbar(data.message, data.bgColor, data.txColor);
-});
-
-socket.on("fatal", () => {
-  window.location.href = "/";
-});*/
