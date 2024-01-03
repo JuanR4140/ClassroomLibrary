@@ -44,6 +44,8 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-sign-in.js")(socket, users);
     require("./sockets/admin/admin-add-book.js")(socket, users, books, bucket);
     require("./sockets/admin/admin-remove-book.js")(socket, users, books, bucket);
+    require("./sockets/admin/admin-view-logs.js")(socket, users);
+    require("./sockets/admin/admin-clear-logs.js")(socket, users);
     require("./sockets/admin/book-exists.js")(socket, books);
 
 });
