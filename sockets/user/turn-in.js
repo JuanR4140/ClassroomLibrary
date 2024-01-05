@@ -1,3 +1,19 @@
+const BadWordsFilter = require("bad-words");
+const badWordsFilter = new BadWordsFilter();
+
+const LeoProfanity = require("leo-profanity");
+
+const {
+    RegExpMatcher,
+    englishDataset,
+    englishRecommendedTransformers
+} = require("obscenity");
+
+const ObscenityMatcher = new RegExpMatcher({
+    ...englishDataset.build(),
+    ...englishRecommendedTransformers
+});
+
 const { toTitleCase } = require("../../utils/toTitleCase.js");
 const { logger } = require("../../system/logger.js");
 const { verify } = require("../../utils/verify.js");
@@ -18,7 +34,18 @@ module.exports = (socket, users, books, email_queue) => {
                 socket.emit("modify-results", {message: "Review too short.", bgColor: "#FF5555", txColor: "#FFFFFF"});
                 return;
             }
+
+            let profanity_check_1 = badWordsFilter.isProfane(data.review);
+            let profanity_check_2 = LeoProfanity.check(data.review);
+            let profanity_check_3 = ObscenityMatcher.hasMatch(data.review);
+    
+            if(profanity_check_1 || profanity_check_2 || profanity_check_3){
+                logger.log(`[INFO] ${data.username} tried submitting review "${data.review}", but profanity checks prevented it from being uploaded.`);
+                socket.emit("modify-results", {message: "Unable to submit review.", bgColor: "#FF5555", txColor: "#FFFFFF"});
+                return;
+            }
         }
+
 
         const bookRef = await books.doc(data.isbn);
         const book = await bookRef.get();
