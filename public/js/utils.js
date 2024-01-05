@@ -17,3 +17,8 @@ function getCookie(cname) {
 let toTitleCase = (text) => {
   return text.toLowerCase().split(" ").map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(" ");
 }
+
+// https://stackoverflow.com/questions/2901102/how-to-format-a-number-with-commas-as-thousands-separators
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}

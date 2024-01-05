@@ -23,6 +23,14 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
     document.querySelector("#check-out-btn").classList.add("hidden");
   }
 
+  const ratings_count = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0
+  }
+
   let sum = 0;
   let len = 0;
 
@@ -68,6 +76,7 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
     root_reviews_div.appendChild(review);
     root_reviews_div.appendChild(br);
 
+    ratings_count[value.rating]++;
     sum += parseFloat(value.rating);
     len++;
   }
@@ -82,6 +91,15 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
     root_reviews_div.appendChild(notice);
   }
 
+  const percentages = {};
+  for(let i = 1; i <= 5; i++){
+    percentages[i] = ((ratings_count[i] / len) * 100).toFixed(2) + '%';
+    percentages[i] = ( percentages[i] == "NaN%" ? "0%" : percentages[i] );
+
+    document.querySelector(`#bar-${6 - i}`).style.width = percentages[i];
+    document.querySelector(`#number-${6 - i}`).innerText = percentages[i];
+  }
+
   let total_ratings = document.querySelector("#total-ratings").querySelectorAll("svg");
   for(let i = 0; i < 5; i++){
     total_ratings[i].classList.remove("text-yellow-300");
@@ -92,8 +110,9 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
     total_ratings[i].classList.add("text-yellow-300")
   }
 
-  document.querySelector("#total-ratings-text").innerText = `${sum / len} out of 5 (${len} total reviews)`;
+  document.querySelector("#total-ratings-text").innerText = `${sum / len} out of 5`;
   if(!len) document.querySelector("#total-ratings-text").innerText = `No reviews :(`;
+  document.querySelector("#total-ratings-2-text").innerText = `${numberWithCommas(len)} total reviews!`;
 
   // NOW we can switch screens :)
   document.querySelector("#results-screen").classList.remove("block");
