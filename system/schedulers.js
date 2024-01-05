@@ -7,7 +7,15 @@ let registerDueBookNoticeChecks = (users, email_queue) => {
     // “At 07:00 on every day-of-month.”
     // https://crontab.guru/#0_7_*/1_*_*
     
-    const job = schedule.scheduleJob("0 7 */1 * *", async () => {
+
+    /*
+        *** FUTURE NOTE FOR REFERENCE***
+        Although this scheduler is set to go off each day
+        at 0500, the server's time is in PST. Since there's a
+        2 hour difference between PST and CST, the code will go
+        off at 0700 CST!
+    */
+    const job = schedule.scheduleJob("0 5 */1 * *", async () => {
         // Every day at 0700, this piece of code should run.
         // This code is responsible for fetching all mail from the email_queue
         // that should be sent out, then sends it out and deletes it from the queue.
