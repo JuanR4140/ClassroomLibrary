@@ -26,7 +26,7 @@ document.querySelector("#add-book-btn-final").addEventListener("click", () => {
   const image = document.querySelector("#add-book-img");
   console.log(image.width);
   console.log(image.height);
-  image.setAttribute("crossorigin", "anonymous");
+  image.setAttribute("crossorigin", "anonymous"); // Keep an eye on how this affects the website
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
