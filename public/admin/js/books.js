@@ -146,8 +146,6 @@ document.querySelector("#back-btn").addEventListener("click", () => {
   document.querySelector("#details-author").innerHTML = `Author:<br>`;
   document.querySelector("#details-genre").innerHTML = `Genre:<br>`;
 
-  document.querySelector("#checking-out-modal-text").innerText = `........`; 
-
   document.querySelector("#details-title").removeAttribute("isbn");
 
   let reviews = document.querySelector("#root-reviews-div");
