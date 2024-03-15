@@ -7,6 +7,8 @@ module.exports = (socket, users, books, bucket) => {
 
         if(data.username != process.env.valid_admin_email.split("@")[0]){ socket.emit("fatal"); return; }
 
+        if(!data.isbn) { socket.emit("admin-remove-book-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+
         if(data.isbn.length == 0){
             socket.emit("admin-remove-book-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"});
             return;
