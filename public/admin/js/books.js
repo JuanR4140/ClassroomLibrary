@@ -61,15 +61,30 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
 
     let username = document.createElement("h1");
     let review = document.createElement("h1");
+    let delete_review_btn = document.createElement("button");
     let br = document.createElement("br");
     username.classList.add("text-md", "dark:text-white", "mb-2", "mt-2");
     username.innerText = key;
     review.classList.add("text-sm", "dark:text-white");
     review.innerText = value.review;
+    delete_review_btn.classList.add("cursor-pointer", "focus:outline-none", "text-white", "bg-red-700", "hover:bg-red-800", "focus:ring-4", "focus:ring-red-300", "font-medium", "rounded-lg", "text-sm", "px-5", "py-2.5", "me-2", "mb-2", "dark:bg-red-600", "dark:hover:bg-red-700", "dark:focus:ring-red-900");
+    delete_review_btn.innerText = "Delete this review";
+    delete_review_btn.addEventListener("click", () => {
+      socket.emit("admin-delete-book-review", {
+        username: getCookie("username"),
+        token: getCookie("token"),
+
+        isbn: document.querySelector("#details-title").getAttribute("isbn"),
+        user: key
+      });
+    });
 
     root_reviews_div.appendChild(username);
     root_reviews_div.appendChild(review);
+    root_reviews_div.appendChild(document.createElement("br"));
+    root_reviews_div.appendChild(delete_review_btn);
     root_reviews_div.appendChild(br);
+    root_reviews_div.appendChild(document.createElement("br"));
 
     ratings_count[value.rating]++;
     sum += parseFloat(value.rating);
@@ -239,6 +254,10 @@ document.querySelector("#remove-book-btn-final").addEventListener("click", () =>
 });
 
 socket.on("admin-remove-book-result", (data) => {
+  createSnackbar(data.msg, data.bgColor, data.txColor);
+});
+
+socket.on("admin-delete-book-review-result", (data) => {
   createSnackbar(data.msg, data.bgColor, data.txColor);
 });
 
