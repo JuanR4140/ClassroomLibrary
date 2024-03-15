@@ -49,6 +49,7 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-get-all-books.js")(socket, users, books);
     require("./sockets/admin/book-exists.js")(socket, books);
     require("./sockets/admin/admin-delete-book-review.js")(socket, users, books);
+    require("./sockets/admin/admin-send-mail.js")(socket, users);
 
 });
 

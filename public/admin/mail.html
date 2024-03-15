@@ -6,6 +6,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
   <title>Classroom Library</title>
   <link href="../css/output.css" rel="stylesheet">
+  <link href="../css/snack.css" rel="stylesheet">
 </head>
 <body class="dark:bg-slate-800">
 
@@ -80,10 +81,22 @@
 
         <br><br><br><br>
 
+        <div class="p-4 text-center">
+         <input type="text" id="recipients" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter student username, usernames separated by spaces, or 'ALL' for all students"><br>
+         <input type="text" id="subject" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter email subject"><br>
+         <textarea type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter email contents" rows="6" style="resize: none;"></textarea><br>
+
+         <input type="button" id="send" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value="Send Email!">
+
+         <br><br><br>
+         <h1 id="results" class="text-xl text-center dark:text-white">Results:</h1>
+        </div>
+
      </div>
     
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   <script src="../js/utils.js"></script>
+  <script src="../js/snack.js"></script>
   <script src="js/mail.js"></script>
 </body>
 </html>

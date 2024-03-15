@@ -3,6 +3,8 @@ let socket = io.connect();
 let showDetails = (title, message, id) => {
   // Load all data first before switching screens
   document.querySelector("#details-title").innerText = title;
+  // Replace newlines with <br>
+  message = message.replace(/\n/g, "<br>");
   document.querySelector("#details-message").innerHTML = message;
 
   document.querySelector("#details-title").setAttribute("identifier", id);

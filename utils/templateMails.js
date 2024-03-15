@@ -16,6 +16,15 @@ const mail_templates = {
         author: "[SYSTEM]",
         date: "",
         message: "Dear [USER],<br><br>We are writing to inform you that your book, [TITLE], is due by [DATE].<br><br>If you would like to extend your due date, please go to <a class='text-sky-500 dark:text-sky-600 cursor-pointer' href='/my-books'>My Books</a> and set your new due date. If you are done reading, please return the book both virtually and physically.<br><br>Thank you, and happy reading!<br><br>This is an automated response by the system."
+    },
+
+    custom: {
+        recipient: "",
+        unread: true,
+        title: "",
+        author: "",
+        date: "",
+        message: ""
     }
 }
 
@@ -26,7 +35,7 @@ class MailConstructor{
         this.date = date;
     }
 
-    constructMail(template, arg1, arg2){
+    constructMail(template, arg1, arg2, arg3){
         let mail_template = { ...mail_templates[template] };
 
         mail_template.recipient = this.username;
@@ -36,6 +45,10 @@ class MailConstructor{
         if(template == "book_due"){
             mail_template.message = mail_template.message.replace("[TITLE]", arg1);
             mail_template.message = mail_template.message.replace("[DATE]", arg2);
+        }else if(template == "custom"){
+            mail_template.title = arg1;
+            mail_template.message = arg2;
+            mail_template.author = arg3;
         }
 
         return mail_template;
