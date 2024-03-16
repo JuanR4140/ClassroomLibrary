@@ -61,7 +61,8 @@ module.exports = (socket, users, books, email_queue) => {
             books.doc(book.data().isbn).update({
                 available: true,
                 holder: "",
-                return_date: ""
+                return_date: "",
+                checked_out: ""
             });
 
             let mail_db_ref = await email_queue.doc(`${book.data().isbn}-two-weeks`);

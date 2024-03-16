@@ -43,7 +43,8 @@ module.exports = (socket, users, books, email_queue) => {
             books.doc(book.data().isbn).update({
                 available: false,
                 holder: data.username,
-                return_date: return_date_epoch
+                return_date: return_date_epoch,
+                checked_out: time_now_epoch
             });
 
             if(should_send_mail){
