@@ -21,12 +21,15 @@ module.exports = (socket, users, books, email_queue) => {
         if(return_date_epoch > (time_now_epoch + 7889231)) { socket.emit("modify-results", {message: "Invalid return date.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
         let should_send_mail = true;
+        let should_send_mail_2 = true;
         // Due book notice email should be sent out two weeks before return date
         let send_mail_time = return_date_epoch - 1209600;
+        let send_mail_time_2 = return_date_epoch - 259200;
 
         // However, if the two weeks notice would be sent in the past, don't send it all
         // (The student should be aware that their book is due soon anyways)
         if(send_mail_time < time_now_epoch) should_send_mail = false;
+        if(send_mail_time_2 < time_now_epoch) should_send_mail_2 = false;
 
         const bookRef = await books.doc(data.isbn);
         const book = await bookRef.get();
@@ -37,8 +40,10 @@ module.exports = (socket, users, books, email_queue) => {
                 return_date: return_date_epoch
             });
 
-            let mail_db_ref = await email_queue.doc(book.data().isbn);
+            let mail_db_ref = await email_queue.doc(`${book.data().isbn}-two-weeks`);
             let mail_db = await mail_db_ref.get();
+            let mail_db_ref_2 = await email_queue.doc(`${book.data().isbn}-three-days`);
+            let mail_db_2 = await mail_db_ref_2.get();
 
             // If the mail exists in the database already..
             if(mail_db.exists){
@@ -47,8 +52,8 @@ module.exports = (socket, users, books, email_queue) => {
                     // Update the mail in the database with the new date
                     const mail_constructor = new MailConstructor(data.username, send_mail_time);
                     let date = new Date(return_date_epoch * 1000);
-                    let mail = mail_constructor.constructMail("book_due", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
-                    queueMail(book.data().isbn, mail, email_queue);
+                    let mail = mail_constructor.constructMail("book_due_two_weeks", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                    queueMail(`${book.data().isbn}-two-weeks`, mail, email_queue);
                 }else{
                     // and we shouldn't send a two week notice mail..
                     // delete the mail in the database
@@ -61,8 +66,26 @@ module.exports = (socket, users, books, email_queue) => {
                     // Construct a new mail template and queue it
                     let mail_constructor = new MailConstructor(data.username, send_mail_time);
                     let date = new Date(return_date_epoch * 1000);
-                    let mail = mail_constructor.constructMail("book_due", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
-                    queueMail(book.data().isbn, mail, email_queue);
+                    let mail = mail_constructor.constructMail("book_due_two_weeks", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                    queueMail(`${book.data().isbn}-two-weeks`, mail, email_queue);
+                }
+            }
+
+            if(mail_db_2.exists){
+                if(should_send_mail_2){
+                    let mail_constructor = new MailConstructor(data.username, send_mail_time_2);
+                    let date = new Date(return_date_epoch * 1000);
+                    let mail = mail_constructor.constructMail("book_due_three_days", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                    queueMail(`${book.data().isbn}-three-days`, mail, email_queue);
+                }else{
+                    const res = await mail_db_ref_2.delete();
+                }
+            }else{
+                if(should_send_mail_2){
+                    let mail_constructor = new MailConstructor(data.username, send_mail_time_2);
+                    let date = new Date(return_date_epoch * 1000);
+                    let mail = mail_constructor.constructMail("book_due_three_days", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                    queueMail(`${book.data().isbn}-three-days`, mail, email_queue);
                 }
             }
 

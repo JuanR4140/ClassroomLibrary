@@ -21,12 +21,15 @@ module.exports = (socket, users, books, email_queue) => {
         if(return_date_epoch > (time_now_epoch + 7889231)) { socket.emit("check-out-result", {message: "Invalid return date.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
         let should_send_mail = true;
+        let should_send_mail_2 = true;
         // Due book notice email should be sent out two weeks before return date
         let send_mail_time = return_date_epoch - 1209600;
+        let send_mail_time_2 = return_date_epoch - 259200;
 
         // However, if the two weeks notice would be sent in the past, don't send it all
         // (The student should be aware that their book is due soon anyways)
         if(send_mail_time < time_now_epoch) should_send_mail = false;
+        if(send_mail_time_2 < time_now_epoch) should_send_mail_2 = false;
 
         const bookRef = await books.doc(data.isbn);
         const book = await bookRef.get();
@@ -46,8 +49,15 @@ module.exports = (socket, users, books, email_queue) => {
             if(should_send_mail){
                 const mail_constructor = new MailConstructor(data.username, send_mail_time);
                 let date = new Date(return_date_epoch * 1000);
-                let mail = mail_constructor.constructMail("book_due", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
-                queueMail(book.data().isbn, mail, email_queue);
+                let mail = mail_constructor.constructMail("book_due_two_weeks", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                queueMail(`${book.data().isbn}-two-weeks`, mail, email_queue);
+            }
+
+            if(should_send_mail_2){
+                const mail_constructor = new MailConstructor(data.username, send_mail_time_2);
+                let date = new Date(return_date_epoch * 1000);
+                let mail = mail_constructor.constructMail("book_due_three_days", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                queueMail(`${book.data().isbn}-three-days`, mail, email_queue);
             }
 
             logger.log(`[INFO] ${data.username} checked out ${toTitleCase(book.data().title)}.`);
