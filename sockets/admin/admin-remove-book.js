@@ -19,6 +19,10 @@ module.exports = (socket, users, books, bucket) => {
 
         if(!book.exists){ socket.emit("admin-remove-book-result", { msg: "Book doesn't exist.", bgColor: "#FF5555", txColor: "#FFFFFF" }); return; }
 
+        if(book.data().holder){
+            socket.emit("admin-remove-book-result", { msg: "Book is currently checked out.", bgColor: "#FF5555", txColor: "#FFFFFF" }); return;
+        }
+
         const res = await books.doc(data.isbn).delete();
 
         // Remove image from database
