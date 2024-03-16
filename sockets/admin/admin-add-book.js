@@ -8,6 +8,8 @@ module.exports = (socket, users, books, bucket) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
+        data.title = data.title.toLowerCase();
+        data.author = data.author.toLowerCase();
         data.genre = data.genre.toLowerCase();
 
         if(data.username != process.env.valid_admin_email.split("@")[0]){ socket.emit("fatal"); return; }
@@ -19,6 +21,10 @@ module.exports = (socket, users, books, bucket) => {
             socket.emit("admin-add-book-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"});
             return;
         }
+
+        let title_keywords = data.title.split(" ");
+        let author_keywords = data.author.split(" ");
+        let keywords = title_keywords.concat(author_keywords);
 
         // console.log(data.cover);
 
@@ -42,7 +48,8 @@ module.exports = (socket, users, books, bucket) => {
                 image: `https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/${data.isbn}.jpg?alt=media`,
                 isbn: data.isbn,
                 title: data.title.toLowerCase(),
-                reviews: {}
+                reviews: {},
+                keywords: keywords
             });
 
             socket.emit("admin-add-book-result", {msg: "Book added to database!", bgColor: "#55FF55", txColor: "#000000"});
