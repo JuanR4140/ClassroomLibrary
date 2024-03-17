@@ -32,7 +32,7 @@ module.exports = (socket, users) => {
             bcrypt.compare(data.password, hash, (err, res) => {
                 if(!res){socket.emit("sign-in-result", {message: "Invalid credentials.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return;}
 
-                users.doc(email).update({
+                userRef.update({
                     token: token
                 });
                 logger.log(`[INFO] ${email} logged in.`);
@@ -48,7 +48,8 @@ module.exports = (socket, users) => {
 
         }else{
             bcrypt.hash(data.password, saltrounds, async (err, hash) => {
-                users.doc(email).set({
+                userRef.set({
+                    username: email,
                     password: hash,
                     token: token,
 

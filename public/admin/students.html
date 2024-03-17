@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
   <title>Classroom Library</title>
+  <link href="../css/snack.css" rel="stylesheet">
   <link href="../css/output.css" rel="stylesheet">
 </head>
 <body class="dark:bg-slate-800">
@@ -80,10 +82,116 @@
 
         <br><br><br><br>
 
+        <input type="button" id="export-to-xlsx-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer" value="Export table to Students.XLSX">
+
+        <table class="student-table">
+            <thead>
+                <tr> 
+                    <th>Name</th>
+                    <th>Book</th>
+                    <th>Checked Out</th>
+                    <th>Return Date</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <br><br><br>
+
+        <div class="flex justify-center">
+            <input type="button" id="fetch-more-results-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer" value="Fetch More Results">
+            <h1 class="text-lg dark:text-white" id="no-more-results"></h1>
+         </div>
+
+        <!--<table class="student-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Book Name</th>
+                    <th>Checked Out</th>
+                    <th>Return Date</th>
+            </thead>
+            <tbody>
+                 <tr>
+                    <td class="name">John Doe</td>
+                    <td class="title">1984</td>
+                    <td>03/01/2022</td>
+                    <td>03/10/2022</td>
+                    <td class="title">Animal Farm</td>
+                    <td>03/10/2022</td>
+                    <td>03/11/2022</td>
+                 </tr>
+                 <tr>
+                    <td class="name">Jane Doe</td>
+                 </tr>
+                 <tr>
+                    <td class="name">Bob Doe</td>
+                    <td class="title">Libro on the happiest things in the world</td>
+                    <td>03/01/2022</td>
+                    <td>03/10/2022</td>
+                 </tr>
+            </tbody>
+        </table>-->
+
+        <style>
+            .student-table{
+               border-collapse: collapse;
+               margin: 25px 0;
+               font-size: 0.9em;
+               min-width: 400px;
+               border-radius: 5px 5px 0 0;
+               overflow: hidden;
+               box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            }
+            .student-table thead tr{
+               background-color: #1c64f2;
+               color: #ffffff;
+               text-align: left;
+               font-weight: bold;
+            }
+
+            .student-table tbody tr .name{
+               cursor: pointer;
+            }
+            .student-table tbody tr .name:hover{
+               color: red;
+               text-decoration: underline;
+            }
+
+            .student-table tbody tr .title{
+               cursor: pointer;
+            }
+            .student-table tbody tr .title:hover{
+               color: red;
+               text-decoration: underline;
+            }
+
+            .student-table th,
+            .student-table td{
+               color: white;
+               padding: 12px 15px;
+            }
+
+            .student-table tbody tr{
+               border-bottom: 1px solid #dddddd;
+            }
+
+            /*.student-table tbody tr:nth-of-type(even){
+               background-color: #f3f3f3;
+            }*/
+
+            .student-table tbody tr:last-of-type{
+               border-bottom: 2px solid #1c64f2;
+            }
+        </style>
+
      </div>
     
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-  <script src="../js/utils.js"></script>
-  <script src="js/students.js"></script>
+      <!-- Courtesy of TableToExcel (https://github.com/linways/table-to-excel) -->
+      <script src="js/dist/TableToExcel.js"></script>
+      <script src="../js/utils.js"></script>
+      <script src="../js/snack.js"></script>
+      <script src="js/students.js" defer="defer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer="defer"></script>
 </body>
 </html>
