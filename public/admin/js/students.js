@@ -46,7 +46,7 @@ socket.on("admin-view-students-results", (data) => {
     for(const user of data.data) {
       let tr = document.createElement("tr");
       let user_td = document.createElement("td");
-      user_td.classList.add("name");
+      user_td.classList.add("name", "dark:text-white");
       user_td.innerText = user.username;
       user_td.addEventListener("click", () => {
         if(confirm(`Are you sure you want to delete student ${user.username}?\n\nThis action cannot be undone.`)) {
@@ -72,7 +72,7 @@ socket.on("admin-view-students-results", (data) => {
 
         title_td.innerText = title;
         title_td.setAttribute("isbn", isbn);
-        title_td.classList.add("title");
+        title_td.classList.add("title", "dark:text-white");
         title_td.addEventListener("click", () => {
           if(confirm(`Are you sure you want to force return the book ${title} from student ${user.username}?`)) {
             socket.emit("admin-force-return-book", {
@@ -86,8 +86,10 @@ socket.on("admin-view-students-results", (data) => {
         });
 
         checked_out_td.innerText = `${checked_out.getMonth() + 1}/${checked_out.getDate()}/${checked_out.getFullYear()}`;
+        checked_out_td.classList.add("dark:text-white");
 
         return_date_td.innerText = `${return_date.getMonth() + 1}/${return_date.getDate()}/${return_date.getFullYear()}`;
+        return_date_td.classList.add("dark:text-white");
         return_date_td.style = ( book.return_date < Date.now() / 1000 ? "background-color: red;" : "" );
 
         tr.appendChild(title_td);
