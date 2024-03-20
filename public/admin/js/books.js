@@ -7,12 +7,14 @@ socket.emit("admin-ping", {
   token: getCookie("token")
 });
 
-let showDetails = (image, title, author, genre, available, reviews, isbn) => {
+let showDetails = (image, title, author, genre, available, holder, reviews, isbn) => {
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
   document.querySelector("#details-title").innerText = toTitleCase(title);
   document.querySelector("#details-author").innerHTML = `Author:<br>` + toTitleCase(author);
   document.querySelector("#details-genre").innerHTML = `Genre:<br>` + toTitleCase(genre);
+
+  document.querySelector("#book_available").innerHTML = ( !available ? `This book is currently being checked out by ${holder}!<br><br>` : "This book is available for check out!<br><br>" );
 
   document.querySelector("#details-title").setAttribute("isbn", isbn);
 
@@ -199,7 +201,7 @@ socket.on("admin-get-all-books-results", (data) => {
       book_div.appendChild(book_span);
 
       book_div.addEventListener("click", () => {
-        showDetails(book.image, book.title, book.author, book.genre, book.available, book.reviews, book.isbn);
+        showDetails(book.image, book.title, book.author, book.genre, book.available, book.holder, book.reviews, book.isbn);
       });
 
       book_container.appendChild(book_div);
