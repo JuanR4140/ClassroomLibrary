@@ -1,7 +1,7 @@
 const { toTitleCase } = require("../../utils/toTitleCase.js");
 const { verify } = require("../../utils/verify.js");
 
-module.exports = (socket, users, books) => {
+module.exports = (socket, users, books, email_queue) => {
     socket.on("admin-force-return-book", async (data) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
@@ -30,6 +30,19 @@ module.exports = (socket, users, books) => {
                     checked_out: "",
                     return_date: ""
                 });
+
+                let mail_db_ref = await email_queue.doc(`${book.data().isbn}-two-weeks`);
+                let mail_db = await mail_db_ref.get();
+                let mail_db_ref_2 = await email_queue.doc(`${book.data().isbn}-three-days`);
+                let mail_db_2 = await mail_db_ref_2.get();
+
+                if(mail_db.exists){
+                    mail_db_ref.delete();
+                }
+
+                if(mail_db_2.exists){
+                    mail_db_ref_2.delete();
+                }
 
                 socket.emit("admin-force-return-book-result", {msg: "Forced book return!", bgColor: "#55FF55", txColor: "#000000"});
             }else{

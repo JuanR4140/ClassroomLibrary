@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-send-mail.js")(socket, users);
     require("./sockets/admin/admin-view-students.js")(socket, users, books);
     require("./sockets/admin/admin-delete-student.js")(socket, users);
-    require("./sockets/admin/admin-force-return-book.js")(socket, users, books);
+    require("./sockets/admin/admin-force-return-book.js")(socket, users, books, email_queue);
 
 });
 
