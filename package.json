@@ -16,7 +16,7 @@
     "express": "^4.18.2",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
-    "jimp": "^0.22.10",
+    "jimp": "^0.22.12",
     "leo-profanity": "^1.7.0",
     "node-schedule": "^2.1.1",
     "obscenity": "^0.2.0",
