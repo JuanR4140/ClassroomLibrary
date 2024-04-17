@@ -21,6 +21,6 @@
     "node-schedule": "^2.1.1",
     "obscenity": "^0.2.0",
     "path": "^0.12.7",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.5"
   }
 }
