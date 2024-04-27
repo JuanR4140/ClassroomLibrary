@@ -8,14 +8,14 @@ module.exports = (socket, users) => {
         let mail = [];
 
         const snapshot = await users.doc(data.username).collection("inbox").get();
-        snapshot.docs.map(doc => {
+        snapshot.docs.forEach(doc => {
             let doc_data = doc.data();
             doc_data["id"] = doc.id;
             mail.push(doc_data);
         });
 
         // Sort the array so the most recent mails will be first
-        mail.sort((a, b) => b.date - a.date);
+        mail.sort((a, b) => b.date - a.date); // <-- In the future, make the client sort the array instead of the server.
 
         socket.emit("get-mail-results", mail);
 

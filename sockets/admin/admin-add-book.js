@@ -1,5 +1,6 @@
 const jimp = require("jimp");
 const fs = require("fs");
+const path = require("path");
 
 const { verify } = require("../../utils/verify.js");
 
@@ -31,15 +32,21 @@ module.exports = (socket, users, books, bucket) => {
         const bookRef = await books.doc(data.isbn);
         const book = bookRef.get();
         if(book.exists){ socket.emit("admin-add-book-result", { msg: "Book already in database.", bgColor: "#FF5555", txColor: "#FFFFFF" }); return; }
-
+        
         const buffer = Buffer.from(data.cover, "base64");
+
+        const sanitizedFileName = data.isbn.replace(/[^0-9]/g, '');
+        const sanitizedPath = path.resolve(__dirname, `../admin/media/${sanitizedFileName}.jpg`);
+        if(sanitizedFileName.length != 13){ socket.emit("admin-add-book-result", { msg: `Invalid ISBN length of ${sanitizedFileName.length}. Must be 13.`, bgColor: "#FF5555", txColor: "#FFFFFF" }); return; }
+
         jimp.read(buffer, async (err, res) => {
             if(err) throw new Error(err);
             // res.quality(50).write("./sockets/admin/media/" + data.isbn + ".jpg");
-            await res.quality(50).writeAsync("./sockets/admin/media/" + data.isbn + ".jpg");
-            let file = "./sockets/admin/media/" + data.isbn + ".jpg";
-            await bucket.upload(file);
-            fs.unlink("./sockets/admin/media/" + data.isbn + ".jpg", (err) => {});
+
+            await res.quality(50).writeAsync(sanitizedPath);
+            await bucket.upload(sanitizedPath);
+            fs.unlink(sanitizedPath, (err) => {});
+            
             books.doc(data.isbn).set({
                 author: data.author.toLowerCase(),
                 available: true,

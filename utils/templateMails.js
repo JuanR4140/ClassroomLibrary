@@ -51,10 +51,13 @@ class MailConstructor{
         mail_template.date = this.date;
         mail_template.message = mail_template.message.replace("[USER]", this.username);
 
+        // These IDs are used to distinguish between different templates visually
         if(template == "book_due_two_weeks"){
+            mail_template.id = 1;
             mail_template.message = mail_template.message.replace("[TITLE]", arg1);
             mail_template.message = mail_template.message.replace("[DATE]", arg2);
         }else if(template == "book_due_three_days"){
+            mail_template.id = 2;
             mail_template.message = mail_template.message.replace("[TITLE]", arg1);
             mail_template.message = mail_template.message.replace("[DATE]", arg2);
         }else if(template == "custom"){

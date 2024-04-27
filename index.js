@@ -4,12 +4,15 @@ logger.log("[INFO] SYSTEM is initializing all core components..");
 require("dotenv").config();
 const ejs = require("ejs");
 const express = require("express");
+const helmet = require("helmet");
 
 const { db, books, users, email_queue, bucket } = require("./firebase/firebase.js");
 
 const PORT = 3000;
 
 const app = express();
+
+app.disable("x-powered-by");
 
 app.engine("html", ejs.renderFile);
 app.use(express.static("./public"));
@@ -60,4 +63,16 @@ const { registerDueBookNoticeChecks } = require("./system/schedulers.js");
 registerDueBookNoticeChecks(users, email_queue);
 
 const { registerRoutes } = require("./routes/routes.js");
+const csurf = require("csurf");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 registerRoutes(app);
+
+app.use(cookieParser());
+app.use(session({
+    secret: process.env.session_secret,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(csurf({ cookie: true }));
+app.use(helmet());

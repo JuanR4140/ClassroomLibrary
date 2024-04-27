@@ -18,7 +18,8 @@ module.exports = (socket, users) => {
         if(domain != process.env.valid_email_domain || !email || !domain) { socket.emit("sign-in-result", {message: "Not a valid email address.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
         let lastFour = email.slice(-4);
 
-        if(isNaN(lastFour)) { socket.emit("sign-in-result", {message: "Invalid email format.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+        // isNaN can lead to unexpected results, use isFinite instead
+        if(!isFinite(lastFour)) { socket.emit("sign-in-result", {message: "Invalid email format.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
         const userRef = await users.doc(email);
         const user = await userRef.get();
