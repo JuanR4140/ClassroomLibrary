@@ -26,3 +26,14 @@ socket.on("sign-in-result", (message) => {
     window.location.href = "home";
   }
 });
+
+window.addEventListener("keypress", (key) => {
+  if(key.key === "Enter"){
+    let email = document.querySelector("#email").value;
+    let password = document.querySelector("#password").value;
+    socket.emit("sign-in", {
+      email: email,
+      password
+    });
+  }
+});
