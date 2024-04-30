@@ -33,7 +33,7 @@ window.addEventListener("keypress", (key) => {
     let password = document.querySelector("#password").value;
     socket.emit("sign-in", {
       email: email,
-      password
+      password: password
     });
   }
 });
