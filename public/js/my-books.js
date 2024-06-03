@@ -20,7 +20,13 @@ let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) =
     let month = return_date.getMonth() + 1;
     let day = return_date.getDate();
     let year = return_date.getFullYear();
+    document.querySelector("#return-date-text").style.color = ""; // Reset text color to defaults
     document.querySelector("#return-date-text").innerText = `This book is due on ${month}/${day}/${year}!`;
+
+    if(return_date_epoch < Date.now() / 1000){
+      document.querySelector("#return-date-text").style.color = "#bf180f";
+      document.querySelector("#return-date-text").innerText += "\n\nThis book has been marked as overdue. Please return it as soon as possible.";
+    }
 
     document.querySelector("#return-book-btn").classList.remove("hidden");
     document.querySelector("#return-book-btn").classList.add("inline-block");
