@@ -291,6 +291,8 @@ document.querySelector("#add-book-btn-final").addEventListener("click", () => {
   ctx.drawImage(image, 0, 0, image.width, image.height);
   const bytes = canvas.toDataURL("image/png").replace(/^data:image\/(png|jpg);base64,/, "");
 
+  document.querySelector("#add-book-title").setAttribute("isbn", document.querySelector("#add-book-isbn").innerText);
+
   socket.emit("admin-add-book", {
     username: getCookie("username"),
     token: getCookie("token"),
