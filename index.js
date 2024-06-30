@@ -57,6 +57,8 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-delete-student.js")(socket, users);
     require("./sockets/admin/admin-force-return-book.js")(socket, users, books, email_queue);
     require("./sockets/admin/admin-add-to-teacher-picks.js")(socket, users, books, teacher_picks);
+    require("./sockets/admin/admin-get-teacher-picks.js")(socket, users, teacher_picks);
+    require("./sockets/admin/admin-remove-from-teacher-picks.js")(socket, users, teacher_picks);
 
 });
 

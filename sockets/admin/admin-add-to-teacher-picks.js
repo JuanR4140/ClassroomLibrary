@@ -8,7 +8,7 @@ module.exports = (socket, users, books, teacher_picks) => {
 
         if(data.username != process.env.valid_admin_email.split("@")[0]){ socket.emit("fatal"); return; }
 
-        if(!data || !data.isbn){ socket.emit("admin-delete-book-review-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+        if(!data || !data.isbn){ socket.emit("admin-add-to-teacher-picks-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
         const bookRef = await books.doc(data.isbn);
         const book = await bookRef.get();
