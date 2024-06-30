@@ -309,6 +309,19 @@ socket.on("admin-add-book-result", (data) => {
   createSnackbar(data.msg, data.bgColor, data.txColor);
 });
 
+document.querySelector("#add-to-teacher-picks-btn").addEventListener("click", () => {
+    socket.emit("admin-add-to-teacher-picks", {
+        username: getCookie("username"),
+        token: getCookie("token"),
+
+        isbn: document.querySelector("#details-title").getAttribute("isbn")
+    });
+});
+
+socket.on("admin-add-to-teacher-picks-result", (data) => {
+    createSnackbar(data.msg, data.bgColor, data.txColor);
+});
+
 socket.on("fatal", () => {
   window.location.href = "/";
 });
