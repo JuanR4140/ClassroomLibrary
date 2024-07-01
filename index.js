@@ -42,6 +42,7 @@ io.on("connection", (socket) => {
     require("./sockets/user/get-mail.js")(socket, users);
     require("./sockets/user/mark-read.js")(socket, users);
     require("./sockets/user/delete-mail.js")(socket, users);
+    require("./sockets/user/get-teacher-picks.js")(socket, users, teacher_picks);
 
 
     require("./sockets/admin/admin-sign-in.js")(socket, users);
