@@ -46,6 +46,8 @@ module.exports = (socket, users, books, bucket) => {
             await res.quality(50).writeAsync(sanitizedPath);
             await bucket.upload(sanitizedPath);
             fs.unlink(sanitizedPath, (err) => {});
+
+            let creation_date = Date.now() / 1000;
             
             books.doc(data.isbn).set({
                 author: data.author.toLowerCase(),
@@ -55,6 +57,7 @@ module.exports = (socket, users, books, bucket) => {
                 image: `https://firebasestorage.googleapis.com/v0/b/wilkins-clasroom-library.appspot.com/o/${data.isbn}.jpg?alt=media`,
                 isbn: data.isbn,
                 title: data.title.toLowerCase(),
+                creation_date: creation_date,
                 reviews: {},
                 keywords: keywords
             });
