@@ -32,8 +32,8 @@ io.on("connection", (socket) => {
     
     require("./sockets/user/sign-in.js")(socket, users);
     require("./sockets/user/search-query.js")(socket, users, books);
-    require("./sockets/user/check-out.js")(socket, users, books, email_queue);
-    require("./sockets/user/turn-in.js")(socket, users, books, email_queue);
+    // require("./sockets/user/check-out.js")(socket, users, books, email_queue);
+    // require("./sockets/user/turn-in.js")(socket, users, books, email_queue);
     require("./sockets/user/extend-return-date.js")(socket, users, books, email_queue);
     require("./sockets/user/get-checked-out-books.js")(socket, users, books);
     require("./sockets/user/add-wishlist.js")(socket, users, books);
@@ -47,6 +47,8 @@ io.on("connection", (socket) => {
     require("./sockets/user/get-all-books.js")(socket, users, books);
 
 
+    require("./sockets/admin/admin-check-out.js")(socket, users, books, email_queue);
+    require("./sockets/admin/admin-turn-in.js")(socket, users, books, email_queue);
     require("./sockets/admin/admin-sign-in.js")(socket, users);
     require("./sockets/admin/admin-add-book.js")(socket, users, books, bucket);
     require("./sockets/admin/admin-remove-book.js")(socket, users, books, bucket);

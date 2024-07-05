@@ -136,7 +136,7 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5">
-                        <form class="space-y-4" action="#">
+                        <form id="return-form" class="space-y-4" action="#">
                             <div>
                                 <h1 class="text-md text-center dark:text-white">Thank you for turning in the book!<br>
                                 Please place the physical copy back in the library so others can read it too! :D</h1>
@@ -177,6 +177,23 @@
 
                             </div>
                             <button id="return-book-btn-final" type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Return Book</button>
+                        </form>
+                        <form id="return-confirmation" class="space-y-4" action="#">
+                            <div>
+                                <h1 class="text-md text-center dark:text-white">Have your teacher scan this QR Code to return your book!</h1>
+                                <br>
+
+                                <div class="flex items-center text-center justify-center">
+                                    <div id="qr-code-img"></div>
+                                </div>
+                                <style>
+                                    #qr-code-img{
+                                        width: 16rem;
+                                        height: 16rem;
+                                        margin-top: 15px;
+                                    }
+                                </style>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -222,7 +239,6 @@
                                 </div><br><br>
 
                             <button id="extend-book-btn-final" type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Extend Due Date!</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -250,6 +266,7 @@
 
     </script>
 
+    <script src="js/qrcode.min.js"></script>
     <script src="js/snack.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/my-books.js"></script>

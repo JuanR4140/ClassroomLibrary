@@ -1,6 +1,13 @@
 let socket = io.connect();
 
 let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) => {
+
+  document.querySelector("#return-form").classList.add("inline-block");
+  document.querySelector("#return-form").classList.remove("hidden");
+
+  document.querySelector("#return-confirmation").classList.add("hidden");
+  document.querySelector("#return-confirmation").classList.remove("inline-block");
+
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
   document.querySelector("#details-title").innerText = toTitleCase(title);
@@ -76,6 +83,25 @@ document.querySelector("#back-btn").addEventListener("click", () => {
 });
 
 document.querySelector("#return-book-btn-final").addEventListener("click", () => {
+  
+  let username = getCookie("username");
+  let title = document.querySelector("#details-title").innerText;
+  let isbn = document.querySelector("#details-title").getAttribute("isbn");
+  let stars = document.querySelector("#rating-dropdown-button").innerHTML.slice(0, 1);
+  let review = document.querySelector("#rating-input").value;
+ 
+  let qrCode = new QRCode("qr-code-img");
+  const text = `RETURN+++---===${username}+++---===${title}+++---===${isbn}+++---===${stars}+++---===${review}`;
+  const encoded = btoa(text);
+  qrCode.makeCode(encoded);
+
+  document.querySelector("#return-form").classList.remove("inline-block");
+  document.querySelector("#return-form").classList.add("hidden");
+
+  document.querySelector("#return-confirmation").classList.remove("hidden");
+  document.querySelector("#return-confirmation").classList.add("inline-block");
+
+  /*
   socket.emit("turn-in", {
     username: getCookie("username"),
     token: getCookie("token"),
@@ -85,6 +111,7 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
     stars: document.querySelector("#rating-dropdown-button").innerHTML.slice(0, 1),
     review: document.querySelector("#rating-input").value
   });
+  */
 });
 
 document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {

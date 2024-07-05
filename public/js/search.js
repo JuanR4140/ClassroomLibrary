@@ -5,6 +5,14 @@ let finishedLoading = false;
 let queryFinished = false;
 
 let showDetails = (image, title, author, genre, available, reviews, isbn) => {
+
+  // Reset form confirmation modal screen
+  document.querySelector("#check-out-form").classList.add("inline-block");
+  document.querySelector("#check-out-form").classList.remove("hidden");
+
+  document.querySelector("#check-out-confirmation").classList.add("hidden");
+  document.querySelector("#check-out-confirmation").classList.remove("inline-block");
+
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
   document.querySelector("#details-title").innerText = toTitleCase(title);
@@ -271,6 +279,30 @@ document.querySelector("#fetch-more-results-btn").addEventListener("click", () =
 });
 
 document.querySelector("#check-out-btn-final").addEventListener("click", () => {
+  // Spooky QR Code generation stuff goes here
+
+  if(!document.querySelector("#datepicker").value){
+    createSnackbar("Date can not be left blank!", "#ff5555", "#ffffff");
+    return;
+  }
+
+  let username = getCookie("username");
+  let title = document.querySelector("#details-title").innerText;
+  let isbn = document.querySelector("#details-title").getAttribute("isbn");
+  let return_date = document.querySelector("#datepicker").value;
+
+  let qrCode = new QRCode("qr-code-img");
+  const text = `CHECK-OUT+++---===${username}+++---===${title}+++---===${isbn}+++---===${return_date}`;
+  const encoded = btoa(text);
+  qrCode.makeCode(encoded);
+
+  document.querySelector("#check-out-form").classList.remove("inline-block");
+  document.querySelector("#check-out-form").classList.add("hidden");
+
+  document.querySelector("#check-out-confirmation").classList.remove("hidden");
+  document.querySelector("#check-out-confirmation").classList.add("inline-block");
+
+  /*
   socket.emit("check-out", {
     username: getCookie("username"),
     token: getCookie("token"),
@@ -278,6 +310,7 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
     isbn: document.querySelector("#details-title").getAttribute("isbn"),
     return_date: document.querySelector("#datepicker").value
   });
+  */
 });
 
 document.querySelector("#add-wishlist-btn").addEventListener("click", () => {

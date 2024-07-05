@@ -1,0 +1,78 @@
+const { MailConstructor } = require("../../utils/templateMails.js");
+const { queueMail } = require("../../utils/queueMail.js");
+const { toTitleCase } = require("../../utils/toTitleCase.js");
+const { logger } = require("../../system/logger.js");
+const { verify } = require("../../utils/verify.js");
+
+module.exports = (socket, users, books, email_queue) => {
+    socket.on("admin-check-out", async (data) => {
+        let { verified, userRef, user } = await verify(users, data);
+        if(!verified) {socket.emit("fatal"); return; }
+
+        if(data.username != process.env.valid_admin_email.split("@")[0]){ socket.emit("fatal"); return; }
+
+        if(!data.return_date) { socket.emit("admin-check-out-result", {message: "Invalid return date.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+
+        let return_date_epoch = new Date(data.return_date).getTime() / 1000;
+        let time_now_epoch = Date.now() / 1000;
+
+        // Reject the return date if it is in the past
+        if(return_date_epoch < time_now_epoch) { socket.emit("admin-check-out-result", {message: "Invalid return date.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+
+        // Reject the return date if it is further than three months
+        if(return_date_epoch > (time_now_epoch + 7889231)) { socket.emit("admin-check-out-result", {message: "Invalid return date.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+
+        let should_send_mail = true;
+        let should_send_mail_2 = true;
+        // Due book notice email should be sent out two weeks before return date
+        let send_mail_time = return_date_epoch - 1209600;
+        let send_mail_time_2 = return_date_epoch - 259200;
+
+        // However, if the two weeks notice would be sent in the past, don't send it all
+        // (The student should be aware that their book is due soon anyways)
+        if(send_mail_time < time_now_epoch) should_send_mail = false;
+        if(send_mail_time_2 < time_now_epoch) should_send_mail_2 = false;
+
+        let student = await users.doc(data.student).get();
+        if(!student.exists){ socket.emit("admin-check-out-result", { message: "Student does not exist!!!", bgColor: "#FF5555", txColor: "#FFFFFF" }); return; }
+
+        data.username = data.student;
+
+        const bookRef = await books.doc(data.isbn);
+        const book = await bookRef.get();
+        let user_books = ( student.data().books == undefined ? [] : student.data().books );
+
+        if(book.exists && book.data().available == true){
+            user_books.push(book.data().isbn);
+            users.doc(data.username).update({
+                books: user_books
+            });
+            books.doc(book.data().isbn).update({
+                available: false,
+                holder: data.username,
+                return_date: return_date_epoch,
+                checked_out: time_now_epoch
+            });
+
+            if(should_send_mail){
+                const mail_constructor = new MailConstructor(data.username, send_mail_time);
+                let date = new Date(return_date_epoch * 1000);
+                let mail = mail_constructor.constructMail("book_due_two_weeks", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                queueMail(`${book.data().isbn}-two-weeks`, mail, email_queue);
+            }
+
+            if(should_send_mail_2){
+                const mail_constructor = new MailConstructor(data.username, send_mail_time_2);
+                let date = new Date(return_date_epoch * 1000);
+                let mail = mail_constructor.constructMail("book_due_three_days", toTitleCase(book.data().title), `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`);
+                queueMail(`${book.data().isbn}-three-days`, mail, email_queue);
+            }
+
+            logger.log(`[INFO] ${data.username} checked out ${toTitleCase(book.data().title)}.`);
+            socket.emit("admin-check-out-result", {message: "Checked out book!", bgColor: "#55FF55", txColor: "#000000", code: 200});
+        }else{
+            socket.emit("admin-check-out-result", {message: "Could not check out book.", bgColor: "#FF5555", txColor: "#FFFFFF"});
+        }
+
+    });
+}
