@@ -6,7 +6,7 @@ const ejs = require("ejs");
 const express = require("express");
 const helmet = require("helmet");
 
-const { db, books, users, teacher_picks, email_queue, bucket } = require("./firebase/firebase.js");
+const { db, books, users, teacher_picks, email_queue, miscellaneous, bucket } = require("./firebase/firebase.js");
 
 const PORT = 3000;
 
@@ -64,7 +64,8 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-add-to-teacher-picks.js")(socket, users, books, teacher_picks);
     require("./sockets/admin/admin-get-teacher-picks.js")(socket, users, teacher_picks);
     require("./sockets/admin/admin-remove-from-teacher-picks.js")(socket, users, teacher_picks);
-
+    require("./sockets/admin/admin-get-pin-status.js")(socket, users, miscellaneous);
+    require("./sockets/admin/admin-set-pin-status.js")(socket, users, miscellaneous)
 });
 
 const { registerDueBookNoticeChecks } = require("./system/schedulers.js");

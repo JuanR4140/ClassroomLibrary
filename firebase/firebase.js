@@ -54,8 +54,9 @@ const {
   const users = db.collection("users");
   const teacher_picks = db.collection("teacher_picks");
   const email_queue = db.collection("email_queue");
+  const miscellaneous = db.collection("miscellaneous");
   const bucket = admin.storage().bucket();
 
   console.log("Firebase initialized");
 
-  module.exports = { db, books, users, teacher_picks, email_queue, bucket };
+  module.exports = { db, books, users, teacher_picks, email_queue, miscellaneous, bucket };

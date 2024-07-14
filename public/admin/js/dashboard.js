@@ -16,7 +16,30 @@ socket.on("admin-success", () => {
     document.querySelector("#logs-content").innerHTML = "";
   });
 
+  document.querySelector("#toggle-pin-status-btn").addEventListener("click", () => {
+      socket.emit("admin-set-pin-status", {
+          username: getCookie("username"),
+          token: getCookie("token"),
+
+          action: "toggle"
+      });
+  });
+
+  document.querySelector("#get-new-pin-btn").addEventListener("click", () => {
+      socket.emit("admin-set-pin-status", {
+          username: getCookie("username"),
+          token: getCookie("token"),
+
+          action: "refresh"
+      });
+  });
+
   socket.emit("admin-get-teacher-picks", {
+      username: getCookie("username"),
+      token: getCookie("token")
+  });
+
+  socket.emit("admin-get-pin-status", {
       username: getCookie("username"),
       token: getCookie("token")
   });
@@ -73,6 +96,12 @@ socket.on("admin-get-teacher-picks-result", (data) => {
 
 socket.on("admin-remove-from-teacher-picks-result", (data) => {
     createSnackbar(data.msg, data.bgColor, data.txColor);
+});
+
+socket.on("admin-get-pin-status-result", (data) => {
+    console.log(data);
+    document.querySelector("#pin").innerText = `Pin: ${data.pin}`;
+    document.querySelector("#pin-status").innerText = `Status: ${( data.enabled ? "On" : "Off" )}`;
 });
 
 socket.on("fatal", () => {
