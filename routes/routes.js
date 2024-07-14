@@ -25,6 +25,10 @@ let registerRoutes = (app) => {
         RenderFile(res, "search");
     });
 
+    app.get("/book*", (req, res) => {
+        RenderFile(res, "book");
+    });
+
     app.get("/my-books", (req, res) => {
         RenderFile(res, "my-books");
     });

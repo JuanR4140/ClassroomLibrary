@@ -1,8 +1,5 @@
 let socket = io.connect();
 let params = {};
-let lastResult;
-let finishedLoading = false;
-let queryFinished = false;
 
 let showDetails = (image, title, author, genre, available, reviews, isbn) => {
 
@@ -123,36 +120,7 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
   document.querySelector("#total-ratings-2-text").innerText = `${numberWithCommas(len)} total reviews!`;
 
   // NOW we can switch screens :)
-  document.querySelector("#results-screen").classList.remove("block");
-  document.querySelector("#results-screen").classList.add("hidden");
-
-  document.querySelector("#details-screen").classList.remove("hidden");
-  document.querySelector("#details-screen").classList.add("block");
 }
-
-document.querySelector("#back-btn").addEventListener("click", () => {
-  // Switch screens!
-  document.querySelector("#results-screen").classList.remove("hidden");
-  document.querySelector("#results-screen").classList.add("block");
-
-  document.querySelector("#details-screen").classList.remove("block");
-  document.querySelector("#details-screen").classList.add("hidden");
-
-  // Unload all data
-  document.querySelector("#details-img").src = "";
-  document.querySelector("#details-title").innerText = "";
-  document.querySelector("#details-author").innerHTML = `Author:<br>`;
-  document.querySelector("#details-genre").innerHTML = `Genre:<br>`;
-
-  document.querySelector("#checking-out-modal-text").innerText = `........`; 
-
-  document.querySelector("#details-title").removeAttribute("isbn");
-
-  let reviews = document.querySelector("#root-reviews-div");
-  while(reviews.firstChild){
-    reviews.removeChild(reviews.lastChild);
-  }
-});
 
 socket.emit("ping", {
   username: getCookie("username"),
@@ -171,113 +139,36 @@ socket.on("success", (data) => {
   for(const [key, value] of urlParams){
     params[key] = value;
   }
-  socket.emit("search-query", {
+  socket.emit("get-book-details", {
     username: getCookie("username"),
     token: getCookie("token"),
 
-    query: params.query,
-    filter: params.filter
+    isbn: params.isbn
   });
 });
 
-socket.on("search-query-results", (data) => {
-  lastResult = data.lastResult;
-  finishedLoading = true;   // query result finished
+socket.on("get-book-details-result", (data) => {
+    if(data.code == 200){
+        let details = data.details;
+        showDetails(details.image, details.title, details.author, details.genre, details.available, details.reviews, details.isbn);
+    }else{
+        location.href = "/home";
+    }
+});
 
-  console.log(data);
-  console.log(data.lastResult);
-  console.log(data.results);
-  document.querySelector("#search-result-text").innerText = `Results for ${params.filter} "${params.query}"`;
-  if(document.querySelector("#search-result-amnt").innerText.includes("Fetched")){
-    let num = parseInt(document.querySelector("#search-result-amnt").innerText.split(" ")[1]);
-    num += data.results.length;
-    document.querySelector("#search-result-amnt").innerText = `Fetched ${num} ${num == 1 ? "book" : "books"}!`;
+document.querySelector("#search-button").addEventListener("click", (e) => {
+  e.preventDefault();
+  let url = "";
+
+  if(document.querySelector("#dropdown-button").innerHTML.includes("Genre")){
+    url = `search?query=${document.querySelector("#dropdown-genre-button").innerHTML.split(" ")[0].toLowerCase()}&filter=genre`;
   }else{
-    document.querySelector("#search-result-amnt").innerText = `Fetched ${data.results.length} ${(data.results.length == 1 ? "book" : "books" )}!`;
+    url = `search?query=${document.querySelector("#search-dropdown").value}&filter=${document.querySelector("#dropdown-button").innerHTML.split(" ")[0].toLowerCase()}`;
   }
 
-  if(data.results.length == 0){
-    // set properties if the query result no more matches
-    document.querySelector("#fetch-more-results-btn").remove();
-    document.querySelector("#no-more-results").innerText = "No more results!";
-    queryFinished = true;
-    return;
-  }
+  const encodedUrl = encodeURI(url);
+  window.location.href = encodedUrl;
 
-  document.querySelector("#fetch-more-results-btn").classList.remove("hidden");
-  document.querySelector("#fetch-more-results-btn").classList.add("inline-block");
-
-  document.querySelector("#no-more-results").innerText = "";
-  
-  // let id = 0;
-  data.results.forEach((book) => {
-
-    let book_container = document.querySelector("#book-container");
-
-    let book_div = document.createElement("div");
-    let book_img = document.createElement("img");
-    let book_br = document.createElement("br");
-    let book_span = document.createElement("span");
-
-    book_div.classList.add("h-48", "w-24", "shadow-2xl", "shadow-black", "shrink-0", "flex-wrap", "cursor-pointer", "flex", "justify-center", "items-center", "text-center");
-    book_img.src = book.image;
-    book_img.classList.add("h-48", "w-24", "mb-5");
-    book_span.innerText = toTitleCase(book.title);
-    book_span.classList.add("dark:text-white");
-
-    book_div.appendChild(book_img);
-    book_div.appendChild(book_br);
-    book_div.appendChild(book_span);
-
-    book_div.addEventListener("click", () => {
-      // showDetails(book.image, book.title, book.author, book.genre, book.available, book.reviews, book.isbn);
-      // location.href = `/book?isbn=${book.isbn}`;
-      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
-    });
-
-    book_container.appendChild(book_div);
-  });
-});
-
-window.addEventListener("scroll", () => {
-  const content = document.querySelector("#book-container");
-  // Only fetch more content when
-  // a) the window scroll is further down than the book container's height
-  // b) the query has finished loading (fetching and loading content)
-  // c) the query itself hasn't finished (i.e a search returned one or more matches)
-  if(window.innerHeight + window.scrollY >= content.offsetHeight && finishedLoading && !queryFinished){
-    finishedLoading = false;
-    document.querySelector("#no-more-results").innerText = "Fetching more results..";
-    document.querySelector("#fetch-more-results-btn").classList.remove("inline-block");
-    document.querySelector("#fetch-more-results-btn").classList.add("hidden");
-    socket.emit("search-query", {
-      username: getCookie("username"),
-      token: getCookie("token"),
-
-      query: params.query,
-      filter: params.filter,
-
-      lastResult: lastResult
-    });
-  }
-});
-
-document.querySelector("#fetch-more-results-btn").addEventListener("click", () => {
-  if(finishedLoading && !queryFinished){
-    finishedLoading = false;
-    document.querySelector("#no-more-results").innerText = "Fetching more results..";
-    document.querySelector("#fetch-more-results-btn").classList.remove("inline-block");
-    document.querySelector("#fetch-more-results-btn").classList.add("hidden");
-    socket.emit("search-query", {
-      username: getCookie("username"),
-      token: getCookie("token"),
-
-      query: params.query,
-      filter: params.filter,
-
-      lastResult: lastResult
-    });
-  }
 });
 
 document.querySelector("#check-out-btn-final").addEventListener("click", () => {
@@ -324,20 +215,6 @@ document.querySelector("#add-wishlist-btn").addEventListener("click", () => {
   });
 });
 
-document.querySelector("#search-button").addEventListener("click", (e) => {
-  e.preventDefault();
-  let url = "";
-
-  if(document.querySelector("#dropdown-button").innerHTML.includes("Genre")){
-      url = `search?query=${document.querySelector("#dropdown-genre-button").innerHTML.split(" ")[0].toLowerCase()}&filter=genre`;
-  }else{
-      url = `search?query=${document.querySelector("#search-dropdown").value}&filter=${document.querySelector("#dropdown-button").innerHTML.split(" ")[0].toLowerCase()}`;
-  }
-
-  const encodedUrl = encodeURI(url);
-  window.location.href = encodedUrl;
-
-});
 
 socket.on("check-out-result", (data) => {
   createSnackbar(data.message, data.bgColor, data.txColor);

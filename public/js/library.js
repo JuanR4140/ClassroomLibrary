@@ -99,9 +99,10 @@ socket.on("get-all-books-result", (data) => {
     book_div.appendChild(book_span);
 
     book_div.addEventListener("click", () => {
-      const encodedUrl = encodeURI(book.title.toLowerCase());
-      const link = `search?query=${encodedUrl}&filter=title`;
-      location.href = link;
+      // const encodedUrl = encodeURI(book.title.toLowerCase());
+      // const link = `search?query=${encodedUrl}&filter=title`;
+      // location.href = link;
+      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
     });
 
     book_container.appendChild(book_div);
