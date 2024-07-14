@@ -5,6 +5,8 @@ module.exports = (socket, users, books) => {
         let { verified, userRef, user } = await verify(users, data);
         if(!verified) {socket.emit("fatal"); return; }
 
+        if(!data.isbn || !data.isbn.length == 13) { socket.emit("add-wishlist-result", {message: "Could not add to wishlist.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
+
         let wishlistInDB = ( user.wishlist == undefined ? [] : user.wishlist );
         if(wishlistInDB.includes(data.isbn)){
             socket.emit("add-wishlist-result", {message: "Already in wishlist!", bgColor: "#FF5555", txColor: "#FFFFFF"});
