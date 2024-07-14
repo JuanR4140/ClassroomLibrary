@@ -7,7 +7,7 @@ const { MailConstructor } = require("../../utils/templateMails.js");
 const { sendMail } = require("../../utils/sendMail.js");
 const { logger } = require("../../system/logger.js");
 
-module.exports = (socket, users) => {
+module.exports = (socket, users, miscellaneous) => {
     socket.on("sign-in", async (data) => {
         if(!data.email || !data.password){ socket.emit("sign-in-result", {message: "Can not have empty fields.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
     
@@ -48,6 +48,20 @@ module.exports = (socket, users) => {
             });
 
         }else{
+
+            const pin_doc = await miscellaneous.doc("pin_state").get();
+            const pin_data = await pin_doc.data();
+
+            if(!pin_data.enabled || !data.pin == pin_data.pin){
+                socket.emit("sign-in-result", {
+                    message: "Pin not active/Invalid Pin",
+                    bgColor: "#FF5555",
+                    txColor: "#FFFFFF"
+                });
+
+                return;
+            }
+
             bcrypt.hash(data.password, saltrounds, async (err, hash) => {
                 userRef.set({
                     username: email,

@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
     require("./sockets/admin-ping.js")(socket, users);
 
     
-    require("./sockets/user/sign-in.js")(socket, users);
+    require("./sockets/user/sign-in.js")(socket, users, miscellaneous);
     require("./sockets/user/search-query.js")(socket, users, books);
     // require("./sockets/user/check-out.js")(socket, users, books, email_queue);
     // require("./sockets/user/turn-in.js")(socket, users, books, email_queue);
