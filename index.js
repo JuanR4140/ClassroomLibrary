@@ -46,6 +46,8 @@ io.on("connection", (socket) => {
     require("./sockets/user/get-new-acquires.js")(socket, users, books);
     require("./sockets/user/get-all-books.js")(socket, users, books);
     require("./sockets/user/get-book-details.js")(socket, users, books);
+    require("./sockets/user/listen-for-book-check-out.js")(socket, users, books);
+    require("./sockets/user/listen-for-book-return.js")(socket, users, books);
 
     require("./sockets/admin/admin-check-out.js")(socket, users, books, email_queue);
     require("./sockets/admin/admin-turn-in.js")(socket, users, books, email_queue);

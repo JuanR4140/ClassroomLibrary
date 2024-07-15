@@ -195,6 +195,14 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
   document.querySelector("#check-out-confirmation").classList.remove("hidden");
   document.querySelector("#check-out-confirmation").classList.add("inline-block");
 
+  // Snapshot Time!!!!
+  socket.emit("listen-for-book-check-out", {
+    username: getCookie("username"),
+    token: getCookie("token"),
+
+    isbn: isbn
+  });
+
   /*
   socket.emit("check-out", {
     username: getCookie("username"),
@@ -204,6 +212,25 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
     return_date: document.querySelector("#datepicker").value
   });
   */
+});
+
+socket.on("listen-for-book-check-out-result", (data) => {
+  createSnackbar(data.message, data.bgColor, data.txColor);
+  if(data.bgColor == "#55FF55"){
+    document.querySelector("#check-out-form").classList.remove("hidden");
+    document.querySelector("#check-out-form").classList.add("inline-block");
+
+    document.querySelector("#check-out-confirmation").classList.remove("inline-block");
+    document.querySelector("#check-out-confirmation").classList.add("hidden");
+
+    document.querySelector("#qr-code-img").removeAttribute("title");
+    document.querySelector("#qr-code-img").innerHTML = "";
+    document.querySelector("#datepicker").value = "";
+    document.querySelector("#close-check-modal-btn").click();
+    document.querySelector("#check-out-btn").classList.remove("inline-block");
+    document.querySelector("#check-out-btn").classList.add("hidden");
+
+  }
 });
 
 document.querySelector("#close-check-modal-btn").addEventListener("click", () => {

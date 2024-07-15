@@ -108,6 +108,13 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
   document.querySelector("#return-confirmation").classList.remove("hidden");
   document.querySelector("#return-confirmation").classList.add("inline-block");
 
+  socket.emit("listen-for-book-return", {
+    username: getCookie("username"),
+    token: getCookie("token"),
+
+    isbn: isbn
+  });
+
   /*
   socket.emit("turn-in", {
     username: getCookie("username"),
@@ -119,6 +126,29 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
     review: document.querySelector("#rating-input").value
   });
   */
+});
+
+socket.on("listen-for-book-return-result", (data) => {
+  createSnackbar(data.message, data.bgColor, data.txColor);
+  if(data.bgColor == "#55FF55"){
+    document.querySelector("#return-form").classList.remove("hidden");
+    document.querySelector("#return-form").classList.add("inline-block");
+
+    document.querySelector("#return-confirmation").classList.remove("inline-block");
+    document.querySelector("#return-confirmation").classList.add("hidden");
+
+    document.querySelector("#qr-code-img").removeAttribute("title");
+    document.querySelector("#qr-code-img").inenrHTML = "";
+    document.querySelector("#rating-dropdown-button").innerHTML = `No, thank you <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path></svg>`
+    document.querySelector("#rating-input").value = "";
+    document.querySelector("#rating-input").classList.remove("block", "inline-block");
+    document.querySelector("#rating-input").classList.add("hidden");
+
+    document.querySelector("#close-return-modal-btn").click(); 
+
+    document.querySelector(`#isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
+    document.querySelector("#back-btn").click(); 
+  }
 });
 
 document.querySelector("#close-return-modal-btn").addEventListener("click", () => {
