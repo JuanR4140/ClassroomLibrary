@@ -102,7 +102,7 @@ socket.on("get-all-books-result", (data) => {
       // const encodedUrl = encodeURI(book.title.toLowerCase());
       // const link = `search?query=${encodedUrl}&filter=title`;
       // location.href = link;
-      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
+      location.href = `/book?isbn=${book.isbn}`;
     });
 
     book_container.appendChild(book_div);

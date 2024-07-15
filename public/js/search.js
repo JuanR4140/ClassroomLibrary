@@ -232,7 +232,7 @@ socket.on("search-query-results", (data) => {
     book_div.addEventListener("click", () => {
       // showDetails(book.image, book.title, book.author, book.genre, book.available, book.reviews, book.isbn);
       // location.href = `/book?isbn=${book.isbn}`;
-      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
+      location.href = `/book?isbn=${book.isbn}`;
     });
 
     book_container.appendChild(book_div);

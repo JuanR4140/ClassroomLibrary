@@ -53,7 +53,7 @@ socket.on("get-teacher-picks-result", (data) => {
 
     book_div.addEventListener("click", () => {
       // location.href = book.link;
-      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
+      location.href = `/book?isbn=${book.isbn}`;
     });
 
     book_container.appendChild(book_div);
@@ -89,7 +89,7 @@ socket.on("get-new-acquires-result", (data) => {
       // const encodedUrl = encodeURI(book.title.toLowerCase());
       // const link = `search?query=${encodedUrl}&filter=title`;
       // location.href = link;
-      window.open(`/book?isbn=${book.isbn}`, '_blank').focus();
+      location.href = `/book?isbn=${book.isbn}`;
     });
 
     book_container.appendChild(book_div);
