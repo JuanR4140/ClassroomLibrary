@@ -127,7 +127,9 @@ document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
     token: getCookie("token"),
 
     isbn: document.querySelector("#details-title").getAttribute("isbn")
-  });
+  }); 
+  document.querySelector(`#isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
+  document.querySelector("#back-btn").click(); 
 });
 
 document.querySelector("#view-full-book-details-btn").addEventListener("click", () => {
@@ -197,6 +199,8 @@ socket.on("checked-out-books-results", (data) => {
       showDetails(book.image, book.title, book.author, book.genre, book.isbn, book.return_date, "book");
     });
 
+    book_div.setAttribute("id", `isbn-${book.isbn}`);
+
     checked_out_book_container.appendChild(book_div);
   });
 });
@@ -230,6 +234,8 @@ socket.on("wishlist-results", (data) => {
     book_div.addEventListener("click", () => {
       showDetails(book.image, book.title, book.author, book.genre, book.isbn, null, "wishlist");
     });
+
+    book_div.setAttribute("id", `isbn-${book.isbn}`);
 
     wishlist_container.appendChild(book_div);
   });
