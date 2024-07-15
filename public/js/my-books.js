@@ -80,6 +80,9 @@ document.querySelector("#back-btn").addEventListener("click", () => {
   document.querySelector("#returning-modal-text").innerText = `........`; 
 
   document.querySelector("#details-title").removeAttribute("isbn");
+
+  document.querySelector("#qr-code-img").removeAttribute("title");
+  document.querySelector("#qr-code-img").innerHTML = "";
 });
 
 document.querySelector("#return-book-btn-final").addEventListener("click", () => {
