@@ -206,6 +206,21 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
   */
 });
 
+document.querySelector("#close-check-modal-btn").addEventListener("click", () => {
+  
+  document.querySelector("#check-out-form").classList.remove("hidden");
+  document.querySelector("#check-out-form").classList.add("inline-block");
+
+  document.querySelector("#check-out-confirmation").classList.remove("inline-block");
+  document.querySelector("#check-out-confirmation").classList.add("hidden");
+
+  document.querySelector("#qr-code-img").removeAttribute("title");
+  document.querySelector("#qr-code-img").innerHTML = "";
+
+  document.querySelector("#datepicker").value = "";
+
+});
+
 document.querySelector("#add-wishlist-btn").addEventListener("click", () => {
   socket.emit("add-wishlist", {
     username: getCookie("username"),
