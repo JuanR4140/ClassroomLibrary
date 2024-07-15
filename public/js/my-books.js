@@ -40,6 +40,8 @@ let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) =
     document.querySelector("#extend-book-btn").classList.remove("hidden");
     document.querySelector("#extend-book-btn").classList.add("inline-block");
 
+    document.querySelector("#view-full-book-details-btn").classList.remove("inline-block");
+    document.querySelector("#view-full-book-details-btn").classList.add("hidden"); 
     document.querySelector("#remove-wishlist-btn").classList.remove("inline-block");
     document.querySelector("#remove-wishlist-btn").classList.add("hidden");
   }else if(type == "wishlist"){
@@ -51,6 +53,8 @@ let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) =
     document.querySelector("#extend-book-btn").classList.remove("inline-block");
     document.querySelector("#extend-book-btn").classList.add("hidden");
 
+    document.querySelector("#view-full-book-details-btn").classList.remove("hidden");
+    document.querySelector("#view-full-book-details-btn").classList.add("inline-block");
     document.querySelector("#remove-wishlist-btn").classList.remove("hidden");
     document.querySelector("#remove-wishlist-btn").classList.add("inline-block");
   }
@@ -124,6 +128,10 @@ document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
 
     isbn: document.querySelector("#details-title").getAttribute("isbn")
   });
+});
+
+document.querySelector("#view-full-book-details-btn").addEventListener("click", () => {
+  location.href = `/book?isbn=${document.querySelector("#details-title").getAttribute("isbn")}`;
 });
 
 document.querySelector("#extend-book-btn-final").addEventListener("click", () => {
