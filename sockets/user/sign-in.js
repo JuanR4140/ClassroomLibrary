@@ -29,6 +29,7 @@ module.exports = (socket, users, miscellaneous) => {
         let cookie_token = `token=${token}; path=/;`;
 
         if(user.exists){
+            if(data.action != "log-in"){ socket.emit("sign-in-result", {message: "Account already exists!", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
             const hash = await user.data().password;
             bcrypt.compare(data.password, hash, (err, res) => {
                 if(!res){socket.emit("sign-in-result", {message: "Invalid credentials.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return;}
@@ -48,6 +49,8 @@ module.exports = (socket, users, miscellaneous) => {
             });
 
         }else{
+
+            if(data.action != "sign-up") { socket.emit("sign-in-result", {message: "Account does not exist!", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
             const pin_doc = await miscellaneous.doc("pin_state").get();
             const pin_data = await pin_doc.data();
