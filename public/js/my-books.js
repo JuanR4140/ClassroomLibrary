@@ -121,6 +121,18 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
   */
 });
 
+document.querySelector("#close-return-modal-btn").addEventListener("click", () => {
+  document.querySelector("#return-form").classList.remove("hidden");
+  document.querySelector("#return-form").classList.add("inline-block");
+
+  document.querySelector("#return-confirmation").classList.remove("inline-block");
+  document.querySelector("#return-confirmation").classList.add("hidden");
+
+  document.querySelector("#qr-code-img").removeAttribute("title");
+  document.querySelector("#qr-code-img").innerHTML = "";
+
+});
+
 document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
   socket.emit("remove-wishlist", {
     username: getCookie("username"),
