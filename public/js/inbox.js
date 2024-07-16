@@ -80,6 +80,9 @@ socket.on("get-mail-results", (data) => {
         mail_div.appendChild(mail_author);
         mail_div.appendChild(mail_date);
 
+        mail_div.setAttribute("id", `mail-id-${mail.id}`);
+        mail_break.setAttribute("id", `mail-id-${mail.id}-br`);
+
         mail_root_div.appendChild(mail_break);
 
         mail_div.addEventListener("click", () => {
@@ -138,7 +141,10 @@ document.querySelector("#delete-mail-btn").addEventListener("click", () => {
         token: getCookie("token"),
 
         id: document.querySelector("#details-title").getAttribute("identifier")
-    })
+    });
+    document.querySelector(`#mail-id-${document.querySelector("#details-title").getAttribute("identifier")}`).remove();
+    document.querySelector(`#mail-id-${document.querySelector("#details-title").getAttribute("identifier")}-br`).remove();
+    document.querySelector("#back-btn").click();
 });
 
 socket.on("delete-mail-results", (data) => {
