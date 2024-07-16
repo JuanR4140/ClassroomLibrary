@@ -3,6 +3,8 @@ let params = {};
 
 let showDetails = (image, title, author, genre, available, reviews, isbn) => {
 
+  document.querySelector("#loading-indicator").remove();
+
   // Reset form confirmation modal screen
   document.querySelector("#check-out-form").classList.add("inline-block");
   document.querySelector("#check-out-form").classList.remove("hidden");
