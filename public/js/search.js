@@ -339,6 +339,13 @@ document.querySelector("#search-button").addEventListener("click", (e) => {
 
 });
 
+document.querySelector("#search-dropdown").addEventListener("keypress", (key) => {
+  if(key.key == "Enter"){
+    key.preventDefault();
+    document.querySelector("#search-button").click();
+  }
+});
+
 socket.on("check-out-result", (data) => {
   createSnackbar(data.message, data.bgColor, data.txColor);
 });

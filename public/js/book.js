@@ -171,6 +171,13 @@ document.querySelector("#search-button").addEventListener("click", (e) => {
 
 });
 
+document.querySelector("#search-dropdown").addEventListener("keypress", (key) => {
+  if(key.key == "Enter"){
+    key.preventDefault();
+    document.querySelector("#search-button").click();
+  }
+});
+
 document.querySelector("#check-out-btn-final").addEventListener("click", () => {
   // Spooky QR Code generation stuff goes here
 
