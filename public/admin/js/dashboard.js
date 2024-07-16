@@ -78,6 +78,8 @@ socket.on("admin-get-teacher-picks-result", (data) => {
         book_div.appendChild(book_br);
         book_div.appendChild(book_span);
 
+        book_div.setAttribute("id", `isbn-${book.isbn}`);
+
         book_div.addEventListener("click", () => {
             if(confirm(`Are you sure you want to remove the book "${toTitleCase(book.title)}" from Teacher's Picks?`)){
                 socket.emit("admin-remove-from-teacher-picks", {
@@ -86,6 +88,7 @@ socket.on("admin-get-teacher-picks-result", (data) => {
 
                     isbn: book.isbn
                 });
+                document.querySelector(`#isbn-${book.isbn}`).remove();
             }
         });
 

@@ -48,6 +48,7 @@ socket.on("admin-view-students-results", (data) => {
       let user_td = document.createElement("td");
       user_td.classList.add("name", "dark:text-white");
       user_td.innerText = user.username;
+      user_td.setAttribute("id", `student-${user.username}`);
       user_td.addEventListener("click", () => {
         if(confirm(`Are you sure you want to delete student ${user.username}?\n\nThis action cannot be undone.`)) {
           socket.emit("admin-delete-student", {
@@ -56,6 +57,7 @@ socket.on("admin-view-students-results", (data) => {
             
             student: user.username
           });
+          document.querySelector(`#student-${user.username}`).remove();
         }
       });
       tr.appendChild(user_td);
