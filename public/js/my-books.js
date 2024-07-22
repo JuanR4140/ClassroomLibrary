@@ -146,7 +146,7 @@ socket.on("listen-for-book-return-result", (data) => {
 
     document.querySelector("#close-return-modal-btn").click(); 
 
-    document.querySelector(`#isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
+    document.querySelector(`#checked-out-isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
     document.querySelector("#back-btn").click(); 
   }
 });
@@ -170,7 +170,7 @@ document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
 
     isbn: document.querySelector("#details-title").getAttribute("isbn")
   }); 
-  document.querySelector(`#isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
+  document.querySelector(`#wishlist-isbn-${document.querySelector("#details-title").getAttribute("isbn")}`).remove();
   document.querySelector("#back-btn").click(); 
 });
 
@@ -241,7 +241,7 @@ socket.on("checked-out-books-results", (data) => {
       showDetails(book.image, book.title, book.author, book.genre, book.isbn, book.return_date, "book");
     });
 
-    book_div.setAttribute("id", `isbn-${book.isbn}`);
+    book_div.setAttribute("id", `checked-out-isbn-${book.isbn}`);
 
     checked_out_book_container.appendChild(book_div);
   });
@@ -277,7 +277,7 @@ socket.on("wishlist-results", (data) => {
       showDetails(book.image, book.title, book.author, book.genre, book.isbn, null, "wishlist");
     });
 
-    book_div.setAttribute("id", `isbn-${book.isbn}`);
+    book_div.setAttribute("id", `wishlist-isbn-${book.isbn}`);
 
     wishlist_container.appendChild(book_div);
   });
