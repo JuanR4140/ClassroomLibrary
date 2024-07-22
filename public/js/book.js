@@ -1,7 +1,7 @@
 let socket = io.connect();
 let params = {};
 
-let showDetails = (image, title, author, genre, available, reviews, isbn) => {
+let showDetails = (image, title, author, genre, available, reviews, isbn, inWishlist) => {
 
   document.querySelector("#loading-indicator").remove();
 
@@ -28,6 +28,16 @@ let showDetails = (image, title, author, genre, available, reviews, isbn) => {
   }else{
     document.querySelector("#check-out-btn").classList.remove("inline-block");
     document.querySelector("#check-out-btn").classList.add("hidden");
+    document.querySelector("#checked-out-notice-text").classList.remove("hidden");
+  }
+
+  if(!inWishlist){
+    document.querySelector("#add-wishlist-btn").classList.remove("hidden")
+    document.querySelector("#add-wishlist-btn").classList.add("inline-block");
+  }else{
+    document.querySelector("#add-wishlist-btn").classList.remove("inline-block");
+    document.querySelector("#add-wishlist-btn").classList.add("hidden");
+    document.querySelector("#in-wishlist-notice-text").classList.remove("hidden");
   }
 
   const ratings_count = {
@@ -152,7 +162,7 @@ socket.on("success", (data) => {
 socket.on("get-book-details-result", (data) => {
     if(data.code == 200){
         let details = data.details;
-        showDetails(details.image, details.title, details.author, details.genre, details.available, details.reviews, details.isbn);
+        showDetails(details.image, details.title, details.author, details.genre, details.available, details.reviews, details.isbn, details.inWishlist);
     }else{
         location.href = "/home";
     }
@@ -239,6 +249,8 @@ socket.on("listen-for-book-check-out-result", (data) => {
     document.querySelector("#check-out-btn").classList.remove("inline-block");
     document.querySelector("#check-out-btn").classList.add("hidden");
 
+    document.querySelector("#checked-out-notice-text").classList.remove("hidden");
+
   }
 });
 
@@ -264,6 +276,9 @@ document.querySelector("#add-wishlist-btn").addEventListener("click", () => {
 
     isbn: document.querySelector("#details-title").getAttribute("isbn")
   });
+  document.querySelector("#add-wishlist-btn").classList.remove("inline-block");
+  document.querySelector("#add-wishlist-btn").classList.add("hidden");
+  document.querySelector("#in-wishlist-notice-text").classList.remove("hidden");
 });
 
 

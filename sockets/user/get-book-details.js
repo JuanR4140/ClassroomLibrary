@@ -10,6 +10,9 @@ module.exports = (socket, users, books) => {
         const book_doc = await books.doc(data.isbn).get();
         const book_data = await book_doc.data();
 
+        let wishlistInDB = ( user.wishlist == undefined ? [] : user.wishlist );
+        book_data.inWishlist = wishlistInDB.includes(data.isbn);
+
         socket.emit("get-book-details-result", {
             code: 200,
             details: book_data
