@@ -32,7 +32,9 @@ let showDetails = (image, title, author, genre, available, holder, reviews, isbn
   let len = 0;
 
   let root_reviews_div = document.querySelector("#root-reviews-div");
-  for(const [key, value] of Object.entries(reviews)){
+    for(const [key, value] of Object.entries(reviews)){
+
+    let review_div = document.createElement("div");
 
     let stars_div = document.createElement("div");
     stars_div.classList.add("flex", "items-center");
@@ -52,7 +54,7 @@ let showDetails = (image, title, author, genre, available, holder, reviews, isbn
 
       stars_div.appendChild(star_svg_icons[i]);
 
-      root_reviews_div.appendChild(stars_div);
+      review_div.appendChild(stars_div);
     }
 
     let pre_colored_stars = stars_div.querySelectorAll("svg");
@@ -79,14 +81,19 @@ let showDetails = (image, title, author, genre, available, holder, reviews, isbn
         isbn: document.querySelector("#details-title").getAttribute("isbn"),
         user: key
       });
+      document.querySelector(`#user-${key}`).remove();
     });
 
-    root_reviews_div.appendChild(username);
-    root_reviews_div.appendChild(review);
-    root_reviews_div.appendChild(document.createElement("br"));
-    root_reviews_div.appendChild(delete_review_btn);
-    root_reviews_div.appendChild(br);
-    root_reviews_div.appendChild(document.createElement("br"));
+    review_div.appendChild(username);
+    review_div.appendChild(review);
+    review_div.appendChild(document.createElement("br"));
+    review_div.appendChild(delete_review_btn);
+    review_div.appendChild(br);
+    review_div.appendChild(document.createElement("br"));
+    
+    review_div.setAttribute("id", `user-${key}`);
+
+    root_reviews_div.appendChild(review_div);
 
     ratings_count[value.rating]++;
     sum += parseFloat(value.rating);
