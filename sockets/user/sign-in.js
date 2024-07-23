@@ -65,6 +65,9 @@ module.exports = (socket, users, miscellaneous) => {
                 return;
             }
 
+            let join_date = Date.now() / 1000;
+
+
             bcrypt.hash(data.password, saltrounds, async (err, hash) => {
                 userRef.set({
                     username: email,
@@ -72,7 +75,8 @@ module.exports = (socket, users, miscellaneous) => {
                     token: token,
 
                     books: [],
-                    wishlist: []
+                    wishlist: [],
+                    join_date: join_date
                 });
                 logger.log(`[INFO] Account created for ${email}.`);
 
