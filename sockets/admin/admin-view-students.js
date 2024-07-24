@@ -16,13 +16,17 @@ module.exports = (socket, users, books) => {
         let data_results = [];
         let snapshot;
 
-        let snapshotQuery = users.orderBy("username");
-        if(data.lastResult){
-            snapshotQuery = snapshotQuery.startAfter(data.lastResult);
+        let snapshotQuery = users.orderBy("username").orderBy("join_date");
+        if(data.lastResult && data.lastResult.username != undefined && data.lastResult.join_date != undefined){
+            snapshotQuery = snapshotQuery.startAfter(data.lastResult.username, data.lastResult.join_date);
         }
 
         snapshot = await snapshotQuery.limit(PAGE_SIZE).get();
-        lastResult = snapshot.docs[snapshot.docs.length - 1]?.data().username || "";
+        const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        lastResult = {
+            username: lastDoc?.data().username || "",
+            join_date: lastDoc?.data().join_date || ""
+        }
 
         const promises = snapshot.docs.map(async (user) => {
             let user_data = {};
