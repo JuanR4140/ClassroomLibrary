@@ -40,7 +40,7 @@ module.exports = (socket, users, books, email_queue) => {
             let profanity_check_3 = ObscenityMatcher.hasMatch(data.review);
     
             if(profanity_check_1 || profanity_check_2 || profanity_check_3){
-                logger.log(`[INFO] ${data.username} tried submitting review "${data.review}", but profanity checks prevented it from being uploaded.`);
+                logger.log(`[BOOK] ${data.username} tried submitting review "${data.review}", but profanity checks prevented it from being uploaded.`);
                 socket.emit("modify-results", {message: "Unable to submit review.", bgColor: "#FF5555", txColor: "#FFFFFF"});
                 return;
             }
@@ -91,7 +91,7 @@ module.exports = (socket, users, books, email_queue) => {
                 });
             }
 
-            logger.log(`[INFO] ${data.username} returned book ${toTitleCase(book.data().title)}.`);
+            logger.log(`[BOOK] ${data.username} returned book ${toTitleCase(book.data().title)}.`);
             socket.emit("modify-results", {message: "Book turned in!", bgColor: "#55FF55", txColor: "#000000"});
         }else{
             socket.emit("modify-results", {message: "Could not turn in book.", bgColor: "#FF5555", txColor: "#FFFFFF"});

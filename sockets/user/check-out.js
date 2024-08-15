@@ -61,7 +61,7 @@ module.exports = (socket, users, books, email_queue) => {
                 queueMail(`${book.data().isbn}-three-days`, mail, email_queue);
             }
 
-            logger.log(`[INFO] ${data.username} checked out ${toTitleCase(book.data().title)}.`);
+            logger.log(`[BOOK] ${data.username} checked out ${toTitleCase(book.data().title)}.`);
             socket.emit("check-out-result", {message: "Checked out book!", bgColor: "#55FF55", txColor: "#000000", code: 200});
         }else{
             socket.emit("check-out-result", {message: "Could not check out book.", bgColor: "#FF5555", txColor: "#FFFFFF"});

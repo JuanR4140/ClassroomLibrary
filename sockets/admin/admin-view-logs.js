@@ -14,7 +14,7 @@ module.exports = (socket, users) => {
         
         fs.readFile(log_path, "utf-8", (err, log) => {
             if(err){
-                logger.log(`[ERROR] ADMIN ${data.username} tried reading log, but failed.`);
+                logger.log(`[WARN] ADMIN ${data.username} tried reading log, but failed.`);
                 socket.emit("admin-view-logs-results", "Could not fetch system log! :(");
                 return;
             }

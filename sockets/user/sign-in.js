@@ -37,7 +37,7 @@ module.exports = (socket, users, miscellaneous) => {
                 userRef.update({
                     token: token
                 });
-                logger.log(`[INFO] ${email} logged in.`);
+                logger.log(`[ACNT] ${email} logged in.`);
                 socket.emit("sign-in-result", {
                     message: "Logged in! Redirecting..",
                     bgColor: "#55FF55",
@@ -78,7 +78,7 @@ module.exports = (socket, users, miscellaneous) => {
                     wishlist: [],
                     join_date: join_date
                 });
-                logger.log(`[INFO] Account created for ${email}.`);
+                logger.log(`[ACNT] Account created for ${email}.`);
 
                 // When a user creates an account,
                 // they'll get sent a welcome email :)

@@ -32,7 +32,7 @@ let registerDueBookNoticeChecks = (users, email_queue) => {
         snapshot.forEach(mail => {
             sendMail(mail.data().recipient, mail.data(), users);
             email_queue.doc(mail.id).delete();
-            logger.log(`[INFO] SYSTEM sent mail to ${mail.data().recipient} from the email queue.`);
+            logger.log(`[MAIL] SYSTEM sent mail to ${mail.data().recipient} from the email queue.`);
         });
 
         logger.log("[INFO] SYSTEM sent all mail for today!");
