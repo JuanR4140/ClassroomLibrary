@@ -1,5 +1,8 @@
 socket = io.connect();
 
+let all_of_log_file;
+let modified_log_file;
+
 socket.emit("admin-ping", {
   username: getCookie("username"),
   token: getCookie("token")
@@ -55,8 +58,45 @@ document.querySelector("#view-logs-btn").addEventListener("click", () => {
 });
 
 socket.on("admin-view-logs-results", (log) => {
+  all_of_log_file = log;
   document.querySelector("#logs-content").innerHTML = log;
+  // let filters = ["all", "info", "mail", "book", "acnt", "warn"];
+  let filters = {
+    "all":  "Every event currently in the logs.",
+    "info": "Events related to the system itself, like booting.",
+    "mail": "Events related to the mail queue or mail sending.",
+    "book": "Events related to checking out/returning books, reviews, etc.",
+    "acnt": "Events related to accounts, like account creation.",
+    "warn": "Events related to system warnings or error prevention."
+  }
+  for(const [key, value] of Object.entries(filters)){
+    document.querySelector(`#filter-${key}`).addEventListener("click", () => {
+      setFilter(key, value);
+    });
+  }
+  setFilter("all", filters["all"]);
+  /*filters.forEach((filter) => {
+    document.querySelector(`#filter-${filter}`).addEventListener("click", () => {
+      setFilter()
+    });
+  });*/
 });
+
+let setFilter = (id, details) => {
+  document.querySelector("#filter-current").innerText = `Filtering by ${id}...`;
+  document.querySelector("#filter-details").innerText = details;
+
+  if(id == "all"){
+    document.querySelector("#logs-content").innerHTML = all_of_log_file;
+  }else{
+    // alert("Give me a sec, okay?!");
+    const log_lines = all_of_log_file.split("\n");
+    const filter_pattern = new RegExp(`\\[${id.toUpperCase()}\\]`, "i");
+    const filtered_lines = log_lines.filter(line => filter_pattern.test(line));
+    modified_log_file = filtered_lines.join("\n");
+    document.querySelector("#logs-content").innerHTML = modified_log_file;
+  }
+}
 
 socket.on("admin-get-teacher-picks-result", (data) => {
     console.log(data);
