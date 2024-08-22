@@ -14,7 +14,7 @@ module.exports = (socket, users, books, bucket) => {
         data.genre = data.genre.toLowerCase();
 
         if(data.username != process.env.valid_admin_email.split("@")[0]){ socket.emit("fatal"); return; }
-        let allowed_genres = ["fiction"];
+        let allowed_genres = ["ya fantasy", "ya realistic fiction", "memoirs & autobiographies", "historical fiction", "the classics", "miscellaneous & comics", "mysteries & adventures", "more ya fantasy"];
 
         if(!data.isbn || !data.title || !data.author || !data.genre){ socket.emit("admin-add-book-result", {msg: "Invalid data.", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
