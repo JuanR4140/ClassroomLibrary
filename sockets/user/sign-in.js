@@ -52,6 +52,7 @@ module.exports = (socket, users, miscellaneous) => {
 
             if(data.action != "sign-up") { socket.emit("sign-in-result", {message: "Account does not exist!", bgColor: "#FF5555", txColor: "#FFFFFF"}); return; }
 
+            /*
             const pin_doc = await miscellaneous.doc("pin_state").get();
             const pin_data = await pin_doc.data();
 
@@ -64,6 +65,7 @@ module.exports = (socket, users, miscellaneous) => {
 
                 return;
             }
+            */
 
             let join_date = Date.now() / 1000;
 

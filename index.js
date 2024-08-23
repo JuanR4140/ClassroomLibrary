@@ -49,8 +49,8 @@ io.on("connection", (socket) => {
     require("./sockets/user/listen-for-book-check-out.js")(socket, users, books);
     require("./sockets/user/listen-for-book-return.js")(socket, users, books);
 
-    // require("./sockets/admin/admin-check-out.js")(socket, users, books, email_queue);
-    // require("./sockets/admin/admin-turn-in.js")(socket, users, books, email_queue);
+    // DEPRECATED require("./sockets/admin/admin-check-out.js")(socket, users, books, email_queue);
+    // DEPRECATED require("./sockets/admin/admin-turn-in.js")(socket, users, books, email_queue);
     require("./sockets/admin/admin-sign-in.js")(socket, users);
     require("./sockets/admin/admin-add-book.js")(socket, users, books, bucket);
     require("./sockets/admin/admin-remove-book.js")(socket, users, books, bucket);
@@ -66,8 +66,8 @@ io.on("connection", (socket) => {
     require("./sockets/admin/admin-add-to-teacher-picks.js")(socket, users, books, teacher_picks);
     require("./sockets/admin/admin-get-teacher-picks.js")(socket, users, teacher_picks);
     require("./sockets/admin/admin-remove-from-teacher-picks.js")(socket, users, teacher_picks);
-    require("./sockets/admin/admin-get-pin-status.js")(socket, users, miscellaneous);
-    require("./sockets/admin/admin-set-pin-status.js")(socket, users, miscellaneous)
+    // DEPRECATED require("./sockets/admin/admin-get-pin-status.js")(socket, users, miscellaneous);
+    // DEPRECATED require("./sockets/admin/admin-set-pin-status.js")(socket, users, miscellaneous)
 });
 
 const { registerDueBookNoticeChecks } = require("./system/schedulers.js");

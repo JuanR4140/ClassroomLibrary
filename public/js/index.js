@@ -8,22 +8,28 @@ document.querySelector("#log-in-btn").addEventListener("click", () => {
     password: password,
 
     action: "log-in",
-    pin: 0
   });
 });
 
 document.querySelector("#sign-up-btn").addEventListener("click", () => {
   let email = document.querySelector("#sign-up-email").value;
   let password = document.querySelector("#sign-up-password").value;
-  let pin = document.querySelector("#sign-up-pin").value;
+  let password_confirm = document.querySelector("#sign-up-password-confirm").value;
+  if(!passwordsMatch(password, password_confirm)){
+    createSnackbar("Passwords don't match!", "#FF5555", "#FFFFFF");
+    return;
+  }
   socket.emit("sign-in", {
     email: email,
     password: password,
 
     action: "sign-up",
-    pin: pin
   });
 });
+
+let passwordsMatch = (password, password_confirm) => {
+  return password === password_confirm;
+}
 
 document.querySelector("#log-in-tab").addEventListener("click", () => {
     document.querySelector("#log-in-tab").classList.remove("hover:text-gray-600", "hover:bg-gray-50", "dark:hover:bg-gray-800", "dark:hover:text-gray-300");
@@ -77,18 +83,21 @@ window.addEventListener("keypress", (key) => {
         password: password,
 
         action: "log-in",
-        pin: 0
       });
     }else{
       let email = document.querySelector("#sign-up-email").value;
       let password = document.querySelector("#sign-up-password").value;
-      let pin = document.querySelector("#sign-up-pin").value;
+      let password_confirm = document.querySelector("#sign-up-password-confirm").value;
+      if(!passwordsMatch(password, password_confirm)){
+        createSnackbar("Passwords don't match!", "#FF5555", "#FFFFFF");
+        return;
+      }
+
       socket.emit("sign-in", {
         email: email,
         password: password,
 
         action: "sign-up",
-        pin: pin
       });
     }
   }
