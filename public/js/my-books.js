@@ -2,11 +2,13 @@ let socket = io.connect();
 
 let showDetails = (image, title, author, genre, isbn, return_date_epoch, type) => {
 
+  /*
   document.querySelector("#return-form").classList.add("inline-block");
   document.querySelector("#return-form").classList.remove("hidden");
 
   document.querySelector("#return-confirmation").classList.add("hidden");
   document.querySelector("#return-confirmation").classList.remove("inline-block");
+  */
 
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
@@ -85,12 +87,14 @@ document.querySelector("#back-btn").addEventListener("click", () => {
 
   document.querySelector("#details-title").removeAttribute("isbn");
 
+  /*
   document.querySelector("#qr-code-img").removeAttribute("title");
   document.querySelector("#qr-code-img").innerHTML = "";
+  */
 });
 
 document.querySelector("#return-book-btn-final").addEventListener("click", () => {
-  
+  /*
   let username = getCookie("username");
   let title = document.querySelector("#details-title").innerText;
   let isbn = document.querySelector("#details-title").getAttribute("isbn");
@@ -114,8 +118,8 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
 
     isbn: isbn
   });
-
-  /*
+  */
+  
   socket.emit("turn-in", {
     username: getCookie("username"),
     token: getCookie("token"),
@@ -125,9 +129,10 @@ document.querySelector("#return-book-btn-final").addEventListener("click", () =>
     stars: document.querySelector("#rating-dropdown-button").innerHTML.slice(0, 1),
     review: document.querySelector("#rating-input").value
   });
-  */
+  
 });
 
+/*
 socket.on("listen-for-book-return-result", (data) => {
   createSnackbar(data.message, data.bgColor, data.txColor);
   if(data.bgColor == "#55FF55"){
@@ -150,7 +155,9 @@ socket.on("listen-for-book-return-result", (data) => {
     document.querySelector("#back-btn").click(); 
   }
 });
+*/
 
+/*
 document.querySelector("#close-return-modal-btn").addEventListener("click", () => {
   document.querySelector("#return-form").classList.remove("hidden");
   document.querySelector("#return-form").classList.add("inline-block");
@@ -162,6 +169,7 @@ document.querySelector("#close-return-modal-btn").addEventListener("click", () =
   document.querySelector("#qr-code-img").innerHTML = "";
 
 });
+*/
 
 document.querySelector("#remove-wishlist-btn").addEventListener("click", () => {
   socket.emit("remove-wishlist", {

@@ -5,12 +5,14 @@ let showDetails = (image, title, author, genre, available, reviews, isbn, inWish
 
   document.querySelector("#loading-indicator").remove();
 
+  /*
   // Reset form confirmation modal screen
   document.querySelector("#check-out-form").classList.add("inline-block");
   document.querySelector("#check-out-form").classList.remove("hidden");
 
   document.querySelector("#check-out-confirmation").classList.add("hidden");
   document.querySelector("#check-out-confirmation").classList.remove("inline-block");
+  */
 
   // Load all data first before switching screens
   document.querySelector("#details-img").src = image;
@@ -191,6 +193,7 @@ document.querySelector("#search-dropdown").addEventListener("keypress", (key) =>
 });
 
 document.querySelector("#check-out-btn-final").addEventListener("click", () => {
+  /*
   // Spooky QR Code generation stuff goes here
 
   if(!document.querySelector("#datepicker").value){
@@ -221,8 +224,7 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
 
     isbn: isbn
   });
-
-  /*
+  */
   socket.emit("check-out", {
     username: getCookie("username"),
     token: getCookie("token"),
@@ -230,9 +232,9 @@ document.querySelector("#check-out-btn-final").addEventListener("click", () => {
     isbn: document.querySelector("#details-title").getAttribute("isbn"),
     return_date: document.querySelector("#datepicker").value
   });
-  */
 });
 
+/*
 socket.on("listen-for-book-check-out-result", (data) => {
   createSnackbar(data.message, data.bgColor, data.txColor);
   if(data.bgColor == "#55FF55"){
@@ -253,7 +255,9 @@ socket.on("listen-for-book-check-out-result", (data) => {
 
   }
 });
+*/
 
+/*
 document.querySelector("#close-check-modal-btn").addEventListener("click", () => {
   
   document.querySelector("#check-out-form").classList.remove("hidden");
@@ -268,6 +272,7 @@ document.querySelector("#close-check-modal-btn").addEventListener("click", () =>
   document.querySelector("#datepicker").value = "";
 
 });
+*/
 
 document.querySelector("#add-wishlist-btn").addEventListener("click", () => {
   socket.emit("add-wishlist", {
