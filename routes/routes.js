@@ -59,6 +59,10 @@ let registerRoutes = (app) => {
         RenderFile(res, "admin/books");
     });
 
+    app.get("/admin/books/new", (req, res) => {
+        RenderFile(res, "admin/new");
+    });
+
     app.get("/admin/students", (req, res) => {
         RenderFile(res, "admin/students");
     });

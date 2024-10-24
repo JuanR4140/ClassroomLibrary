@@ -445,21 +445,30 @@
             if(res.status === 200){
                document.querySelector("#add-book-img").setAttribute("src", res.url);
             }else{
+               alert("Error! Could not fetch book cover image!");
                document.querySelector("#add-book-img").setAttribute("src", "https://via.placeholder.com/300x200");
             }
          });
 
          let author_url = "https://openlibrary.org";
          await fetch(`https://openlibrary.org/isbn/${ISBN}.json`).then(async res =>{
-            await res.json().then(json => {
-               document.querySelector("#add-book-title").innerText = json.title;
-               author_url += json.authors[0].key + ".json";
-            });
+            if(res.status === 200){
+               await res.json().then(json => {
+                  document.querySelector("#add-book-title").innerText = json.title;
+                  author_url += json.authors[0].key + ".json";
+               });
+            }else{
+               alert("Error! Could not fetch book title!");
+            }
          });
 
          await fetch(author_url).then(async res => await res.json().then(json => {
-            document.querySelector("#add-book-author").innerText = json.name;
-            document.querySelector("#code").innerText = JSON.stringify(json);
+            if(res.status === 200){
+               document.querySelector("#add-book-author").innerText = json.name;
+               document.querySelector("#code").innerText = JSON.stringify(json);
+            }else{
+               alert("Error! Could not fetch book author!");
+            }
          }));
 
          document.querySelector("#code").innerText = `Fetching complete with ISBN: ${ISBN}. Make sure results are accurate and fill in any missing details, or scan again!`;

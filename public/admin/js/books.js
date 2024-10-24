@@ -269,11 +269,7 @@ socket.on("admin-delete-book-review-result", (data) => {
 });
 
 document.querySelector("#add-book-screen-btn").addEventListener("click", () => {
-  document.querySelector("#add-book-screen").classList.remove("hidden");
-  document.querySelector("#add-book-screen").classList.add("block");
-
-  document.querySelector("#main").classList.remove("block");
-  document.querySelector("#main").classList.add("hidden");
+  window.location.href = "/admin/books/new";
 });
 
 document.querySelector("#add-book-back-btn").addEventListener("click", () => {
